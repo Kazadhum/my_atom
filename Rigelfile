@@ -1,0 +1,143 @@
+# # This file was generate by RIGEL.
+# # Feel free to alter it according to your needs.
+
+# ---
+
+# vars:
+
+#   distro: "melodic"
+#   username: "robomaker"
+#   robomaker_tool_gazebo_cmd: "source /home/rigeluser/robot-entrypoint.sh && gzclient"
+#   robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
+
+# providers:
+
+#   aws:
+#     provider: "rigel.providers.aws.AWSProvider"
+#     with:
+#       aws_access_key_id: "{{ AWS_ACCESS_KEY_ID }}"
+#       aws_secret_access_key: "{{ AWS_SECRET_ACCESS_KEY }}" 
+#       region_name: "{{ AWS_REGION_NAME }}"
+#       ecr_servers:
+#         - "{{ AWS_ECR }}"
+#       services: ["ecr", "robomaker"]
+
+# applications:
+
+#   task_manager:
+
+#     distro: "{{ distro }}"
+#     jobs:
+
+#       dockerfile:
+#         plugin: "rigel.plugins.core.DockerfilePlugin"
+#         with:
+#           apt:
+#             - "xfce4-terminal"
+#           compiler:
+#             name: "colcon"
+#           run:
+#             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
+#             - "cd ~/ros_workspace/src"
+#             - "git clone <REPO_URL>"
+#           command: "roslaunch <ATOM_CMD>"
+#           entrypoint:
+#             # Alterar variaveis 48 ~ 50
+#             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
+#             - "export WORKSPACE_INSTALL=~/ros_workspace/install"
+#             - "export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo"
+#             - "export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo/meshes"
+
+#       build:
+#         plugin: "rigel.plugins.core.BuildXPlugin"
+#         with:
+#           image: "atom"
+#           tags: ["latest", "{{ distro }}"]
+#           load: True
+#           push: False
+#           # platforms:
+#           #   - "linux/amd64"
+#           #   - "linux/arm64"
+
+#       test:
+#         plugin: "rigel.plugins.core.TestPlugin"
+#         with:
+#           components:
+#             -
+#               name: "simulation"   # <----- ambiente de simulação
+#               image: "{{ AWS_ECR }}/simulation:latest"
+#               command: ["roslaunch", "tm_sim_gazebo", "run.launch", "gui:=true"]
+#               envs:
+#                 DISPLAY: "{{ DISPLAY }}"
+#               volumes:
+#                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+#             -
+#               name: "robot"   # <----- atom aqui dentro
+#               image: "{{ AWS_ECR }}/robot:latest"
+#               command: ["roslaunch", "robot_app", "run.launch", "use_rosbridge:=true"]
+#               envs:
+#                 DISPLAY: "{{ DISPLAY }}"
+#               volumes:
+#                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+#               introspection:
+#                 requirements:
+#                   - 'globally : some /OSPS/TM/HeartBeep [osps_msgs/TMHeartBeep] {publisherId = "friday"}'
+#                   - "globally : some /OSPS/TM/TaskStatus [osps_msgs/TMTaskStatus] {statusCode = 5}"
+
+#       robomaker:
+#         plugin: "rigel.plugins.aws.RoboMakerPlugin"
+#         with:
+#           iam_role: "{{ AWS_IAM_ROLE }}"
+#           output_location: "rigel-robomaker-logs"
+#           simulation_duration: 600
+
+#           robot_application:
+#             ecr: "{{ AWS_ECR }}/robot:latest"
+#             command: ["roslaunch", "robot_app", "run.launch", "use_rosbridge:=true"]
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_ROBOT_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             ports:
+#               - !!python/tuple [9090, 9090]
+#             tools:
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#             requirements:
+#               - 'globally : some /OSPS/TM/HeartBeep [osps_msgs/TMHeartBeep] {publisherId = "friday"}'
+#               - "globally : some /OSPS/TM/TaskStatus [osps_msgs/TMTaskStatus] {statusCode = 5}"
+
+#           simulation_application:
+#             ecr: "{{ AWS_ECR }}/simulation:latest"
+#             command: ["roslaunch", "--wait", "tm_sim_gazebo", "run.launch", "gui:=true"]
+#             stream_ui: True
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_SIM_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             tools:
+#               -
+#                 name: 'gzclient'
+#                 command: "{{ robomaker_tool_gazebo_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+
+#           vpc_config:
+#             subnets:
+#               - "subnet-0c31fe89fff4cda00"
+#               - "subnet-0229c1b42075fddf3"
+#             security_groups:
+#               - "sg-06f70b36208dde8bc"
+#             assign_public_ip: True
+
+# sequences:
+#   deploy: ["dockerfile", "build"]
+#   test: ["test"]
