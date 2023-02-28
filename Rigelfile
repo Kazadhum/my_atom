@@ -34,9 +34,10 @@ applications:
         with:
           apt:
             - "xfce4-terminal"
+            - "ros-noetic-ros-numpy"
           compiler:
             name: "catkin_make"
-          run:
+          docker_run:
             - "pip3 install rospy_message_converter"
             - "pip3 install opencv-contrib-python==4.6.0.66"
             - "pip3 install JSON-minify"
@@ -57,26 +58,27 @@ applications:
             - "pip3 install open3d"
 
             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
-            # - "cd ~/ros_workspace/src"
-            # - "git clone <REPO_URL>"
+            - "cd ~/ros_workspace/src"
+            - "git clone https://github.com/miguelriemoliveira/rviz"
+
           # command: "roslaunch <ATOM_CMD>"
           entrypoint:
             # Alterar variaveis 48 ~ 50
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
             - "export WORKSPACE_INSTALL=~/ros_workspace/install"
-            - "export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo"
-            - "export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo/meshes"
+            - "export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/atom_calibration/"
+            - "export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/atom_calibration/meshes"
 
-#       build:
-#         plugin: "rigel.plugins.core.BuildXPlugin"
-#         with:
-#           image: "atom"
-#           tags: ["latest", "{{ distro }}"]
-#           load: True
-#           push: False
-#           # platforms:
-#           #   - "linux/amd64"
-#           #   - "linux/arm64"
+      build:
+        plugin: "rigel.plugins.core.BuildXPlugin"
+        with:
+          image: "atom"
+          tags: ["latest", "{{ distro }}"]
+          load: True
+          push: False
+          # platforms:
+          #   - "linux/amd64"
+          #   - "linux/arm64"
 
 #       test:
 #         plugin: "rigel.plugins.core.TestPlugin"
