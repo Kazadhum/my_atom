@@ -36,6 +36,7 @@ applications:
             - "xfce4-terminal"
             - "ros-noetic-ros-numpy"
             - "python3-pip"
+            - "git-all"
 
           compiler:
             name: "catkin_make"
@@ -60,8 +61,8 @@ applications:
             - "pip3 install open3d"
 
             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
-            - "mkdir -p ~/ros_workspace/src"
-            - "cd ~/ros_workspace/src"
+            - "mkdir -p home/ros_workspace/src"
+            - "cd home/ros_workspace/src"
             - "git clone https://github.com/miguelriemoliveira/rviz"
 
           # command: "roslaunch <ATOM_CMD>"
