@@ -35,6 +35,7 @@ FROM ros:noetic
 RUN sudo apt clean && sudo apt update && sudo apt install -y \
     xfce4-terminal \
     ros-noetic-ros-numpy \
+    python3-pip \
     ssh
 
 # Execute additional commands.
@@ -56,6 +57,7 @@ RUN pip3 install readchar
 RUN pip3 install urdf-parser-py
 RUN pip3 install SQLAlchemy
 RUN pip3 install open3d
+RUN mkdir -p ~/ros_workspace/src
 RUN cd ~/ros_workspace/src
 RUN git clone https://github.com/miguelriemoliveira/rviz
 

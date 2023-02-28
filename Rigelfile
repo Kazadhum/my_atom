@@ -35,6 +35,8 @@ applications:
           apt:
             - "xfce4-terminal"
             - "ros-noetic-ros-numpy"
+            - "python3-pip"
+
           compiler:
             name: "catkin_make"
           docker_run:
@@ -58,6 +60,7 @@ applications:
             - "pip3 install open3d"
 
             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
+            - "mkdir -p ~/ros_workspace/src"
             - "cd ~/ros_workspace/src"
             - "git clone https://github.com/miguelriemoliveira/rviz"
 
