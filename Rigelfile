@@ -1,14 +1,14 @@
-# # This file was generate by RIGEL.
-# # Feel free to alter it according to your needs.
+# This file was generate by RIGEL.
+# Feel free to alter it according to your needs.
 
-# ---
+---
 
-# vars:
+vars:
 
-#   distro: "melodic"
-#   username: "robomaker"
-#   robomaker_tool_gazebo_cmd: "source /home/rigeluser/robot-entrypoint.sh && gzclient"
-#   robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
+  distro: "noetic"
+  # username: "robomaker"
+  # robomaker_tool_gazebo_cmd: "source /home/rigeluser/robot-entrypoint.sh && gzclient"
+  # robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
 
 # providers:
 
@@ -22,31 +22,50 @@
 #         - "{{ AWS_ECR }}"
 #       services: ["ecr", "robomaker"]
 
-# applications:
+applications:
 
-#   task_manager:
+  atom:
 
-#     distro: "{{ distro }}"
-#     jobs:
+    distro: "{{ distro }}"
+    jobs:
 
-#       dockerfile:
-#         plugin: "rigel.plugins.core.DockerfilePlugin"
-#         with:
-#           apt:
-#             - "xfce4-terminal"
-#           compiler:
-#             name: "colcon"
-#           run:
-#             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
-#             - "cd ~/ros_workspace/src"
-#             - "git clone <REPO_URL>"
-#           command: "roslaunch <ATOM_CMD>"
-#           entrypoint:
-#             # Alterar variaveis 48 ~ 50
-#             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
-#             - "export WORKSPACE_INSTALL=~/ros_workspace/install"
-#             - "export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo"
-#             - "export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo/meshes"
+      dockerfile:
+        plugin: "rigel.plugins.core.DockerfilePlugin"
+        with:
+          apt:
+            - "xfce4-terminal"
+          compiler:
+            name: "catkin_make"
+          run:
+            - "pip3 install rospy_message_converter"
+            - "pip3 install opencv-contrib-python==4.6.0.66"
+            - "pip3 install JSON-minify"
+            - "pip3 install jinja2"
+            - "pip3 install alphashape"
+            - "pip3 install descartes"
+            - "pip3 install colorama"
+            - "pip3 install graphviz"
+            - "pip3 install pandas"
+            - "pip3 install pynput"
+            - "pip3 install scipy"
+            - "pip3 install scipy"
+            - "pip3 install networkx"
+            - "pip3 install prettytable"
+            - "pip3 install readchar"
+            - "pip3 install urdf-parser-py"
+            - "pip3 install SQLAlchemy"
+            - "pip3 install open3d"
+
+            # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
+            # - "cd ~/ros_workspace/src"
+            # - "git clone <REPO_URL>"
+          # command: "roslaunch <ATOM_CMD>"
+          entrypoint:
+            # Alterar variaveis 48 ~ 50
+            - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
+            - "export WORKSPACE_INSTALL=~/ros_workspace/install"
+            - "export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo"
+            - "export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/apm_world_model_gazebo/share/apm_world_model_gazebo/meshes"
 
 #       build:
 #         plugin: "rigel.plugins.core.BuildXPlugin"
@@ -138,6 +157,6 @@
 #               - "sg-06f70b36208dde8bc"
 #             assign_public_ip: True
 
-# sequences:
-#   deploy: ["dockerfile", "build"]
-#   test: ["test"]
+sequences:
+  deploy: ["dockerfile", "build"]
+  test: ["test"]
