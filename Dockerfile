@@ -37,29 +37,31 @@ RUN sudo apt clean && sudo apt update && sudo apt install -y \
     ros-noetic-ros-numpy \
     python3-pip \
     git-all \
+    qtbase5-dev \
+    qtdeclarative5-dev \
     ssh
 
 # Execute additional commands.
-RUN pip3 install rospy_message_converter
-RUN pip3 install opencv-contrib-python==4.6.0.66
-RUN pip3 install JSON-minify
-RUN pip3 install jinja2
-RUN pip3 install alphashape
-RUN pip3 install descartes
-RUN pip3 install colorama
-RUN pip3 install graphviz
-RUN pip3 install pandas
-RUN pip3 install pynput
-RUN pip3 install scipy
-RUN pip3 install scipy
-RUN pip3 install networkx
-RUN pip3 install prettytable
-RUN pip3 install readchar
-RUN pip3 install urdf-parser-py
-RUN pip3 install SQLAlchemy
-RUN pip3 install open3d
-RUN mkdir -p home/ros_workspace/src
-RUN cd home/ros_workspace/src
+RUN pip install rospy_message_converter
+RUN pip install opencv-contrib-python==4.6.0.66
+RUN pip install JSON-minify
+RUN pip install jinja2
+RUN pip install alphashape
+RUN pip install descartes
+RUN pip install colorama
+RUN pip install graphviz
+RUN pip install pandas
+RUN pip install pynput
+RUN pip install scipy
+RUN pip install scipy
+RUN pip install networkx
+RUN pip install prettytable
+RUN pip install readchar
+RUN pip install urdf-parser-py
+RUN pip install SQLAlchemy
+RUN pip install open3d
+RUN mkdir -p home/rigeluser/ros_workspace/src
+RUN cd home/rigeluser/ros_workspace/src
 RUN git clone https://github.com/miguelriemoliveira/rviz
 
 
