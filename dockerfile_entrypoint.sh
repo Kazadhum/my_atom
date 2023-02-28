@@ -6,9 +6,9 @@ cd ~/ros_workspace/
 source /opt/ros/noetic/setup.bash
 source ./devel/setup.bash
 if [[ -f "/usr/share/$GAZEBO_VERSION/setup.sh" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi
-export WORKSPACE_INSTALL=~/ros_workspace/install
-export GAZEBO_RESOURCE_PATH=$WORKSPACE_INSTALL/atom_calibration/
-export GAZEBO_MODEL_PATH=$WORKSPACE_INSTALL/atom_calibration/meshes
+export WORKSPACE_INSTALL=~/ros_workspace/devel
+export ROS_BAGS="$HOME/bagfiles"
+export ATOM_DATASETS="$HOME/datasets"
 printenv
 
 exec "${@:1}"

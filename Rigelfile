@@ -65,7 +65,7 @@ applications:
           entrypoint:
             # Alterar variaveis 48 ~ 50
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
-            # - "export WORKSPACE_INSTALL=~/ros_workspace/install"
+            - "export WORKSPACE_INSTALL=~/ros_workspace/devel"
             - export ROS_BAGS="$HOME/bagfiles"
             - export ATOM_DATASETS="$HOME/datasets"
 
