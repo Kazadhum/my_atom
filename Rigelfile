@@ -42,6 +42,8 @@ applications:
             - "python3-rosdep"
             - "curl"
             - "ros-noetic-gazebo-ros"
+            - "ros-noetic-robot-state-publisher"
+            - "ros-noetic-xacro"
 
           compiler:
             name: "catkin_make"
@@ -72,7 +74,6 @@ applications:
 
           # command: "roslaunch t2rgb.launch"
           entrypoint:
-            # Alterar variaveis 48 ~ 50
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
             - "export WORKSPACE_INSTALL=~/ros_workspace/devel"
             - export ROS_BAGS="$HOME/bagfiles"
