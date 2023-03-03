@@ -40,11 +40,9 @@ RUN sudo apt clean && sudo apt update && sudo apt install -y \
     qtbase5-dev \
     qtdeclarative5-dev \
     python3-rosdep \
-    curl \
     ssh
 
 # Execute additional commands.
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 RUN pip3 install rospy_message_converter
 RUN pip3 install opencv-contrib-python==4.6.0.66
 RUN pip3 install JSON-minify
@@ -85,19 +83,19 @@ COPY . /home/rigeluser/ros_workspace/src/rigel_local_packages
 # Copy bringup script.
 COPY dockerfile_entrypoint.sh /home/rigeluser/robot-entrypoint.sh
 
-# Compile ROS workspace.
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash \ 
-    && cd /home/rigeluser/ros_workspace \
+# # Compile ROS workspace.
+# RUN /bin/bash -c "source /opt/ros/noetic/setup.bash \ 
+#     && cd /home/rigeluser/ros_workspace \
     
-    && sudo rosdep fix-permissions \
-    && rosdep update \
-    && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y \
-    && catkin_make "
+#     && sudo rosdep fix-permissions \
+#     && rosdep update \
+#     && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y \
+#     && catkin_make "
     
 
-# Give permissions to user
-RUN sh -c 'sudo chmod +x /home/rigeluser/robot-entrypoint.sh'
-RUN sh -c 'sudo chown rigeluser:rigeluser /home/rigeluser/robot-entrypoint.sh'
+# # Give permissions to user
+# RUN sh -c 'sudo chmod +x /home/rigeluser/robot-entrypoint.sh'
+# RUN sh -c 'sudo chown rigeluser:rigeluser /home/rigeluser/robot-entrypoint.sh'
 
-# Launch ROS application.
-ENTRYPOINT [ "/home/rigeluser/robot-entrypoint.sh" ]
+# # Launch ROS application.
+# ENTRYPOINT [ "/home/rigeluser/robot-entrypoint.sh" ]
