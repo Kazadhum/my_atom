@@ -41,10 +41,10 @@ RUN sudo apt clean && sudo apt update && sudo apt install -y \
     qtdeclarative5-dev \
     python3-rosdep \
     curl \
+    ros-noetic-gazebo-ros \
     ssh
 
 # Execute additional commands.
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 RUN pip3 install rospy_message_converter
 RUN pip3 install opencv-contrib-python==4.6.0.66
 RUN pip3 install JSON-minify
@@ -64,7 +64,8 @@ RUN pip3 install SQLAlchemy
 RUN pip3 install open3d
 RUN mkdir -p home/rigeluser/ros_workspace/src
 RUN cd home/rigeluser/ros_workspace/src
-RUN git clone https://github.com/miguelriemoliveira/rviz
+RUN git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz
+RUN git clone https://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@github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb
 
 
 # Create default user 'rigeluser'.

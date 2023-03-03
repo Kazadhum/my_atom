@@ -9,6 +9,7 @@ if [[ -f "/usr/share/$GAZEBO_VERSION/setup.sh" ]]; then source /usr/share/$GAZEB
 export WORKSPACE_INSTALL=~/ros_workspace/devel
 export ROS_BAGS="$HOME/bagfiles"
 export ATOM_DATASETS="$HOME/datasets"
+source $WORKSPACE_INSTALL/setup.bash
 printenv
 
 exec "${@:1}"

@@ -41,12 +41,11 @@ applications:
             - "qtdeclarative5-dev"
             - "python3-rosdep"
             - "curl"
+            - "ros-noetic-gazebo-ros"
 
           compiler:
             name: "catkin_make"
           docker_run:
-            - "curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -"
-
             - "pip3 install rospy_message_converter"
             - "pip3 install opencv-contrib-python==4.6.0.66"
             - "pip3 install JSON-minify"
@@ -68,7 +67,8 @@ applications:
             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
             - "mkdir -p home/rigeluser/ros_workspace/src"
             - "cd home/rigeluser/ros_workspace/src"
-            - "git clone https://github.com/miguelriemoliveira/rviz"
+            - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
+            - "git clone https://{{ T2RGB_REPO_ACCESS_PAT }}@github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
 
           # command: "roslaunch t2rgb.launch"
           entrypoint:
@@ -77,12 +77,13 @@ applications:
             - "export WORKSPACE_INSTALL=~/ros_workspace/devel"
             - export ROS_BAGS="$HOME/bagfiles"
             - export ATOM_DATASETS="$HOME/datasets"
+            - source $WORKSPACE_INSTALL/setup.bash
 
       build:
         plugin: "rigel.plugins.core.BuildXPlugin"
         with:
           image: "atom"
-          tags: ["latest", "{{ distro }}"]
+          tags: ["{{ distro }}"]
           load: True
           push: False
           # platforms:
