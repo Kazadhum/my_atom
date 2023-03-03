@@ -56,7 +56,6 @@ RUN pip3 install graphviz
 RUN pip3 install pandas
 RUN pip3 install pynput
 RUN pip3 install scipy
-RUN pip3 install scipy
 RUN pip3 install networkx
 RUN pip3 install prettytable
 RUN pip3 install readchar

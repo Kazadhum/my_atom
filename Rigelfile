@@ -58,7 +58,6 @@ applications:
             - "pip3 install pandas"
             - "pip3 install pynput"
             - "pip3 install scipy"
-            - "pip3 install scipy"
             - "pip3 install networkx"
             - "pip3 install prettytable"
             - "pip3 install readchar"
@@ -71,7 +70,7 @@ applications:
             - "cd home/rigeluser/ros_workspace/src"
             - "git clone https://github.com/miguelriemoliveira/rviz"
 
-          # command: "roslaunch <ATOM_CMD>"
+          # command: "roslaunch t2rgb.launch"
           entrypoint:
             # Alterar variaveis 48 ~ 50
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
