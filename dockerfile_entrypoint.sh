@@ -6,7 +6,7 @@ cd ~/ros_workspace/
 source /opt/ros/noetic/setup.bash
 source ./devel/setup.bash
 if [[ -f "/usr/share/$GAZEBO_VERSION/setup.sh" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi
-export WORKSPACE_INSTALL=~/ros_workspace/devel
+export WORKSPACE_INSTALL="~/ros_workspace/devel"
 export ROS_BAGS="$HOME/bagfiles"
 export ATOM_DATASETS="$HOME/datasets"
 source $WORKSPACE_INSTALL/setup.bash

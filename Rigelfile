@@ -44,6 +44,8 @@ applications:
             - "ros-noetic-gazebo-ros"
             - "ros-noetic-robot-state-publisher"
             - "ros-noetic-xacro"
+            - "ros-noetic-rqt"
+            # - "ros-noetic-rqt-common-plugins" apt install ros-noetic-rqt-common-plugins makes the build process get stuck asking what keyboard layout you use
 
           compiler:
             name: "catkin_make"
@@ -72,10 +74,10 @@ applications:
             - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
             - "git clone https://{{ T2RGB_REPO_ACCESS_PAT }}@github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
 
-          # command: "roslaunch t2rgb.launch"
+          # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'"
           entrypoint:
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
-            - "export WORKSPACE_INSTALL=~/ros_workspace/devel"
+            - export WORKSPACE_INSTALL="~/ros_workspace/devel"
             - export ROS_BAGS="$HOME/bagfiles"
             - export ATOM_DATASETS="$HOME/datasets"
             - source $WORKSPACE_INSTALL/setup.bash
@@ -91,18 +93,18 @@ applications:
           #   - "linux/amd64"
           #   - "linux/arm64"
 
-#       test:
-#         plugin: "rigel.plugins.core.TestPlugin"
-#         with:
-#           components:
-#             -
-#               name: "simulation"   # <----- ambiente de simulação
-#               image: "{{ AWS_ECR }}/simulation:latest"
-#               command: ["roslaunch", "tm_sim_gazebo", "run.launch", "gui:=true"]
-#               envs:
-#                 DISPLAY: "{{ DISPLAY }}"
-#               volumes:
-#                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+      # test:
+      #   plugin: "rigel.plugins.core.TestPlugin"
+      #   with:
+      #     components:
+      #       -
+      #         name: "simulation"   # <----- ambiente de simulação
+      #         image: "atom:latest"
+      #         command: ["roslaunch", "gazebo_ros", "empty_wo.launch", "gui:=true"]
+      #         envs:
+      #           DISPLAY: "{{ DISPLAY }}"
+      #         volumes:
+      #           - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
 #             -
 #               name: "robot"   # <----- atom aqui dentro
 #               image: "{{ AWS_ECR }}/robot:latest"
