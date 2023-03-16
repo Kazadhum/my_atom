@@ -32,6 +32,11 @@ applications:
       dockerfile:
         plugin: "rigel.plugins.core.DockerfilePlugin"
         with:
+
+          env:
+            - name: GAZEBO_VERSION
+              value: gazebo-11
+
           apt:
             - "xfce4-terminal"
             - "ros-noetic-ros-numpy"
@@ -67,6 +72,8 @@ applications:
             - "pip3 install urdf-parser-py"
             - "pip3 install SQLAlchemy"
             - "pip3 install open3d"
+            - "pip3 install pytictoc"
+            - "pip3 install numpy==1.20.3"
 
             # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
             - "mkdir -p home/rigeluser/ros_workspace/src"
@@ -77,9 +84,11 @@ applications:
           # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'"
           entrypoint:
             - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
+            - "export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH/usr/share/gazebo-11:"
+            - "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH/usr/share/gazebo-11/meshes:"
             - export WORKSPACE_INSTALL="~/ros_workspace/devel"
-            - export ROS_BAGS="$HOME/bagfiles"
-            - export ATOM_DATASETS="$HOME/datasets"
+            - export ROS_BAGS="$HOME/ros_workspace/src/t2rgb/bagfiles"
+            - export ATOM_DATASETS="$HOME/ros_workspace/src/t2rgb/datasets"
             - source $WORKSPACE_INSTALL/setup.bash
 
       build:
@@ -93,30 +102,53 @@ applications:
           #   - "linux/amd64"
           #   - "linux/arm64"
 
-      # test:
-      #   plugin: "rigel.plugins.core.TestPlugin"
+      test:
+        plugin: "rigel.plugins.core.TestPlugin"
+        with:
+          timeout: 600.0 # seconds (1.0m = 60.0s)
+          components:
+            -
+              name: "simulation_and_robot"
+              image: "atom:latest"
+              command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
+              envs:
+                DISPLAY: "{{ DISPLAY }}"
+              
+              volumes:
+                - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+
+            - 
+              name: "calibration"
+              image: "atom:latest"
+              command: ["rosrun", "atom_calibration", "calibrate", "-json", "$ATOM_DATASETS/t2rgb/dataset.json", "-v", "-rv"]
+              envs:
+                DISPLAY: "{{ DISPLAY}}"
+
+              volumes:
+                - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+
+              introspection:
+                requirements:
+                  - 'globally: some /dummy_topic [std_msgs/String]'
+      
+      # diogo_introspection:
+      #   plugin: "file_intro_plugin.FileIntrospectionPlugin"
       #   with:
-      #     components:
-      #       -
-      #         name: "simulation"   # <----- ambiente de simulação
-      #         image: "atom:latest"
-      #         command: ["roslaunch", "gazebo_ros", "empty_wo.launch", "gui:=true"]
-      #         envs:
-      #           DISPLAY: "{{ DISPLAY }}"
-      #         volumes:
-      #           - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
-#             -
-#               name: "robot"   # <----- atom aqui dentro
-#               image: "{{ AWS_ECR }}/robot:latest"
-#               command: ["roslaunch", "robot_app", "run.launch", "use_rosbridge:=true"]
-#               envs:
-#                 DISPLAY: "{{ DISPLAY }}"
-#               volumes:
-#                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
-#               introspection:
-#                 requirements:
-#                   - 'globally : some /OSPS/TM/HeartBeep [osps_msgs/TMHeartBeep] {publisherId = "friday"}'
-#                   - "globally : some /OSPS/TM/TaskStatus [osps_msgs/TMTaskStatus] {statusCode = 5}"
+      #     files:
+      #       - "~/catkin_ws/src/atom/csv_calibration_results/rgb_to_rgb_results.csv"
+
+      #     # Row and column of value to be used to evaluate results
+      #     value_row: "Averages"
+      #     value_column: "RMS (pix)"
+
+      #     # Thresholds for various levels of quality
+      #     acceptable_threshold: 3 
+      #     good_threshold: 1
+      #     great_threshold: 0.5
+
+
+      #     # Determines whether the test is passed or failed. "acceptable", "good" or "great"
+      #     required_quality_level: "good"
 
 #       robomaker:
 #         plugin: "rigel.plugins.aws.RoboMakerPlugin"
