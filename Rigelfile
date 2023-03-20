@@ -118,15 +118,16 @@ applications:
                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
 
             - 
-              name: "calibration"
+              # name: "calibration"
+              name: "calibration_evaluation"
               image: "atom:latest"
-              command:
-                # - ["rosrun", "atom_calibration", "calibrate", "-json", "$ATOM_DATASETS/t2rgb/dataset.json", "-v", "-rv"]
-                # - ["rosrun", "atom_evaluation", "rgb_to_rgb_evaluation", "-train_json", "$ATOM_DATASETS/t2rgb/atom_calibration.json", "-test_json", "$ATOM_DATASETS/t2rgb/dataset.json", "--sensor_source", "right_camera", "--sensor_target", "-left_camera", "-sfr", "$HOME"]
-              
-              command: ["rosrun", "atom_calibration", "calibrate", "-json", "$ATOM_DATASETS/t2rgb/dataset.json", "-v", "-rv", "&&", "rosrun", "atom_evaluation", "rgb_to_rgb_evaluation", "-train_json", "$ATOM_DATASETS/t2rgb/atom_calibration.json", "-test_json", "$ATOM_DATASETS/t2rgb/dataset.json", "--sensor_source", "right_camera", "--sensor_target", "left_camera", "-sfr", "$HOME"]
 
+              artifacts: 
+                - "/home/rigeluser/rgb_to_rgb_results.csv"
 
+              # Running both calibration and evaluation in a bash wrap -> WORKS
+              command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
+            
               envs:
                 DISPLAY: "{{ DISPLAY}}"
 
