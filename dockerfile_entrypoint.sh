@@ -12,6 +12,7 @@ export WORKSPACE_INSTALL="~/ros_workspace/devel"
 export ROS_BAGS="$HOME/ros_workspace/src/t2rgb/bagfiles"
 export ATOM_DATASETS="$HOME/ros_workspace/src/t2rgb/datasets"
 source $WORKSPACE_INSTALL/setup.bash
+rosrun rosbridge_server rosbridge_websocket &
 printenv
 
 exec "${@:1}"

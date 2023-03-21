@@ -51,6 +51,7 @@ applications:
             - "ros-noetic-xacro"
             - "ros-noetic-rqt"
             # - "ros-noetic-rqt-common-plugins" apt install ros-noetic-rqt-common-plugins makes the build process get stuck asking what keyboard layout you use
+            - "ros-{{ distro }}-rosbridge*" # testing
 
           compiler:
             name: "catkin_make"
@@ -90,6 +91,7 @@ applications:
             - export ROS_BAGS="$HOME/ros_workspace/src/t2rgb/bagfiles"
             - export ATOM_DATASETS="$HOME/ros_workspace/src/t2rgb/datasets"
             - source $WORKSPACE_INSTALL/setup.bash
+            - rosrun rosbridge_server rosbridge_websocket & # Testing
 
       build:
         plugin: "rigel.plugins.core.BuildXPlugin"
@@ -138,24 +140,36 @@ applications:
                 requirements:
                   - 'globally: some /dummy_topic [std_msgs/String]'
       
-      # diogo_introspection:
-      #   plugin: "file_intro_plugin.FileIntrospectionPlugin"
-      #   with:
-      #     files:
-      #       - "~/catkin_ws/src/atom/csv_calibration_results/rgb_to_rgb_results.csv"
+      diogo_introspection:
+        plugin: "file_intro_plugin.FileIntrospectionPlugin"
+        with:
+          file: "/home/diogo/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
 
-      #     # Row and column of value to be used to evaluate results
-      #     value_row: "Averages"
-      #     value_column: "RMS (pix)"
+          # Value verification
+          columns_to_verify:
+            - "RMS (pix)"
 
-      #     # Thresholds for various levels of quality
-      #     acceptable_threshold: 3 
-      #     good_threshold: 1
-      #     great_threshold: 0.5
+          column_verification_threshold: 2
+          verification_comparison_operator: ">" # Can be either ">" or "<"
+
+          # Comparison value selection 
+          use_latest_row: True # Only reads the value in the last row and the selected column
+          use_latest_column: False # Only reads the value in the last column and the selected row
+
+          # Row and column of value to be used to evaluate results
+          value_row: "Averages" # This is only used if use_latest_data is False
+          value_column: "RMS (pix)"
+
+          # Thresholds for various levels of quality
+          acceptable_threshold: 3 
+          good_threshold: 1
+          great_threshold: 0.5
 
 
-      #     # Determines whether the test is passed or failed. "acceptable", "good" or "great"
-      #     required_quality_level: "good"
+          # Determines whether the test is passed or failed. "acceptable", "good" or "great"
+          required_quality_level: "good" # Optional: "acceptable" is default
+
+
 
 #       robomaker:
 #         plugin: "rigel.plugins.aws.RoboMakerPlugin"
@@ -211,6 +225,7 @@ applications:
 #               - "sg-06f70b36208dde8bc"
 #             assign_public_ip: True
 
+
 sequences:
   deploy: ["dockerfile", "build"]
-  test: ["test"]
+  test: ["test", "diogo_introspection"]
