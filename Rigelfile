@@ -149,8 +149,8 @@ applications:
           columns_to_verify:
             - "RMS (pix)"
 
-          column_verification_threshold: 2
-          verification_comparison_operator: ">" # Can be either ">" or "<"
+          column_verification_upper_threshold: 2
+          # column_verification_lower_threshold: 0.5
 
           # Comparison value selection 
           use_latest_row: True # Only reads the value in the last row and the selected column
