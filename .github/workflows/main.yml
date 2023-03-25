@@ -12,8 +12,7 @@ jobs:
     strategy:
       matrix: # the product of the entries
         env:
-          ROS_DISTRO: noetic
-          ROS_REPO: main
+          - {ROS_DISTRO: noetic, ROS_REPO: main}
     
     env:
       CCACHE_DIR: "${{ github.workspace }}/.ccache"
