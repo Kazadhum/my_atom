@@ -14,18 +14,18 @@ jobs:
         env:
           - {ROS_DISTRO: noetic, ROS_REPO: main}
     
-    env:
-      CCACHE_DIR: "${{ github.workspace }}/.ccache"
+    # env:
+    #   CCACHE_DIR: "${{ github.workspace }}/.ccache"
 
     steps:
       - uses: actions/checkout@v3 # clone target repo
-      - uses: actions/cache@v2 # fetch the directory used before/after the ci run
-        with:
-          path: ${{ env.CCACHE_DIR }}
+      # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
+      #   with:
+      #     path: ${{ env.CCACHE_DIR }}
 
-          key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{ github.run_id }}
-          restore-keys: |
-            ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
+      #     key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{ github.run_id }}
+      #     restore-keys: |
+      #       ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       
       - uses: 'ros-industrial/industrial_ci@master'
         env:
