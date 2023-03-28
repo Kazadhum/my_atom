@@ -9,6 +9,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    run: rosdep init && rosdep update
+
     strategy:
       matrix: # the product of the entries
         env:
