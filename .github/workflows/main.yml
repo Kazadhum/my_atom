@@ -15,8 +15,8 @@ jobs:
         env:
           - {ROS_DISTRO: noetic, ROS_REPO: main}
     
-    # env:
-    #   CCACHE_DIR: "${{ github.workspace }}/.ccache"
+    env:
+      CCACHE_DIR: "${{ github.workspace }}/.ccache"
 
     steps:
       - uses: actions/checkout@v3 # clone target repo
