@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       
-      - run: apt get install rosdep && rosdep init && rosdep update
+      - run: apt install rosdep && rosdep init && rosdep update
 
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
