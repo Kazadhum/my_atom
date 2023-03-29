@@ -4,16 +4,19 @@ on: push
   
   
 jobs:
-  industrial_ci:
-    name: ROS ${{ matrix.ROS_DISTRO }} (${{ matrix.ROS_REPO }})
+  rigel:
+    name: Job 1
 
     runs-on: ubuntu-latest
 
-
-    strategy:
-      matrix: # the product of the entries
-        env:
-          - {ROS_DISTRO: noetic, ROS_REPO: main}
+    # strategy:
+    #   matrix: # the product of the entries
+    #     env:
+    #       - {ROS_DISTRO: noetic, ROS_REPO: main}
+    # strategy:
+    #   matrix: # the product of the entries
+    #     env:
+    #       - {ROS_DISTRO: noetic, ROS_REPO: main}
     
     # env:
     #   CCACHE_DIR: "${{ github.workspace }}/.ccache"
