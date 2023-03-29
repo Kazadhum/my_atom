@@ -28,7 +28,7 @@ jobs:
       #     restore-keys: |
       #       ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       
-      - run: sudo apt update && sudo apt install rosdep && rosdep init && rosdep update
+      - run: sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
 
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
