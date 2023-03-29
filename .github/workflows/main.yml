@@ -15,11 +15,12 @@ jobs:
         env:
           - {ROS_DISTRO: noetic, ROS_REPO: main}
     
-    env:
-      CCACHE_DIR: "${{ github.workspace }}/.ccache"
+    # env:
+    #   CCACHE_DIR: "${{ github.workspace }}/.ccache"
 
     steps:
-      - uses: actions/checkout@v1 # clone target repo
+      - uses: actions/checkout@v3 # clone target repo
+      - run: sudo apt update && sudo apt install poetry
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
@@ -30,5 +31,5 @@ jobs:
       
       # - run: sudo apt update && sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
 
-      - uses: 'ros-industrial/industrial_ci@master'
-        env: ${{matrix.env}}
+      # - uses: 'ros-industrial/industrial_ci@master'
+      #   env: ${{matrix.env}}
