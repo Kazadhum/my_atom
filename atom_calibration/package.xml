@@ -27,7 +27,8 @@
   <exec_depend>python3-jinja2</exec_depend>
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-yaml</exec_depend>
-  <exec_depend>python3-graphviz-pip</exec_depend>
+  <exec_depend>python3-graphviz</exec_depend>
+  <!-- <exec_depend>python3-graphviz-pip</exec_depend> -->
 
   <export>
   </export>
