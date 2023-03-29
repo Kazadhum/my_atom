@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && pip install poetry
+      - run: sudo apt update && pip install poetry && git clone https://github.com/rigel-ros/rigel && cd rigel/ && poetry install
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
