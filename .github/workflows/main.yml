@@ -25,6 +25,7 @@ jobs:
       # - uses: actions/checkout@v3 # clone target repo
       - run: sudo apt update && pip install poetry && cd ~/ && git clone https://github.com/rigel-ros/rigel && cd ~/ && git clone https://github.com/Kazadhum/atom && cd rigel/ && poetry install
       - run: cd ~/ && ls
+      - run: cd ~/atom/ && rigel run sequence deploy
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
