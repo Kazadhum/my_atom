@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && pip install poetry && git clone https://github.com/rigel-ros/rigel && cd rigel/ && poetry install
+      - run: sudo apt update && pip install poetry && cd .. && git clone https://github.com/rigel-ros/rigel && cd rigel/ && poetry install
       - run: sudo apt install tree && tree
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
