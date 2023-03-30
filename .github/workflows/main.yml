@@ -18,14 +18,14 @@ jobs:
     #     env:
     #       - {ROS_DISTRO: noetic, ROS_REPO: main}
     
-    # env:
-    #   CCACHE_DIR: "${{ github.workspace }}/.ccache"
+    env:
+      PATH_TO_VENV: "~/.cache/pypoetry/virtualenvs"
 
     steps:
       # - uses: actions/checkout@v3 # clone target repo
       - run: sudo apt update && pip install poetry && cd ~/ && git clone https://github.com/rigel-ros/rigel && cd ~/ && git clone https://github.com/Kazadhum/atom
       - run: cd ~/ && ls
-      - run: cd ~/rigel/ && poetry install && poetry shell && cd ~/atom/ && rigel run sequence deploy
+      - run: cd ~/rigel/ && poetry install && cd ~/atom/ && rigel run sequence deploy
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
