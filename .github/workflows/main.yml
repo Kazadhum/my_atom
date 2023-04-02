@@ -19,11 +19,13 @@ jobs:
     #       - {ROS_DISTRO: noetic, ROS_REPO: main}
 
     steps:
+      
       # - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && pip install poetry && cd ~/ && git clone https://github.com/rigel-ros/rigel && cd ~/ && git clone https://github.com/Kazadhum/atom
-      - run: cd ~/ && ls
-      - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
-      #  cd ~/atom/ && rigel run sequence deploy
+      # - run: sudo apt update && pip install poetry && cd ~/ && git clone https://github.com/rigel-ros/rigel && cd ~/ && git clone https://github.com/Kazadhum/atom
+      # - run: cd ~/ && ls
+      # - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
+
+
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
@@ -32,7 +34,7 @@ jobs:
       #     restore-keys: |
       #       ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       
-      # - run: sudo apt update && sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
+      - run: sudo apt update && sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
 
-      # - uses: 'ros-industrial/industrial_ci@master'
-      #   env: ${{matrix.env}}
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{matrix.env}}
