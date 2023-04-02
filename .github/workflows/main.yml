@@ -16,7 +16,7 @@ jobs:
     # strategy:
     #   matrix: # the product of the entries
     #     env:
-    #       - {ROS_DISTRO: noetic, ROS_REPO: main}
+    #       - {ROS_DISTRO: noetic, ROS_REPO: main} 
 
     steps:
       # - uses: actions/checkout@v3 # clone target repo
