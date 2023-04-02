@@ -9,14 +9,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix: # the product of the entries
-    #     env:
-    #       - {ROS_DISTRO: noetic, ROS_REPO: main}
-    # strategy:
-    #   matrix: # the product of the entries
-    #     env:
-    #       - {ROS_DISTRO: noetic, ROS_REPO: main}
+    strategy:
+      matrix: # the product of the entries
+        env:
+          - {ROS_DISTRO: noetic, ROS_REPO: main}
 
     steps:
       
