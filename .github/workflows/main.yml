@@ -22,7 +22,7 @@ jobs:
       - run: cd ~/atom && rigel run job dockerfile
         with:
           env:
-            - {DISPLAY: :0}
+            DISPLAY: :0
 
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
