@@ -17,9 +17,15 @@ jobs:
     steps:
       
       - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
-      - run: cd ~/ && ls
-      - run: cd ~/atom && rigel run sequence deploy
+      
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
+      
+      - name: DEBUG STEP - Check Directory Structure
+        run: cd ~/ && ls
+
+      - name: Build ATOM image using Rigel
+        run: cd ~/atom && rigel run sequence deploy
         env:
           DISPLAY: :0
 
