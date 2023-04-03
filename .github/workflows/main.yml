@@ -32,7 +32,8 @@ jobs:
         env:
           DISPLAY: :0
 
-      # - name:
+      - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
+        run: cd ~/atom && rigel run sequence test
 
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
