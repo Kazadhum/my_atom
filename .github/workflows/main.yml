@@ -17,10 +17,10 @@ jobs:
     steps:
       
       - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && pip install poetry && cd ~/ && pip install https://github.com/rigel-ros/rigel/tree/develop.zip
+      - run: sudo apt update && pip install poetry && cd ~/ && pip install -e git+https://github.com/rigel-ros/rigel@develop
       # && cd ~/ && git clone https://github.com/Kazadhum/atom
-      - run: cd ~/ && ls
-      - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
+      # - run: cd ~/ && ls
+      # - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
 
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
