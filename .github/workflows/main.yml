@@ -28,12 +28,12 @@ jobs:
         run: cd ~/ && ls
 
       - name: Build ATOM image using Rigel
-        run: cd ~/atom/github_actions_rigelfile/ && rigel run sequence deploy
+        run: cd ~/atom/ && rigel run sequence deploy
         env:
           DISPLAY: :0
 
       - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
-        run: cd ~/atom/github_actions_rigelfile/ && rigel run sequence test
+        run: cd ~/atom/ && rigel run sequence test
         env:
           DISPLAY: :0
 
