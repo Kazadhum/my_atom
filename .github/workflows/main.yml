@@ -21,6 +21,9 @@ jobs:
       - name: Install Rigel and clone ATOM repo
         run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
       
+      - name: Install my File Introspection Plugin
+        run: pip install git+https://github.com/Kazadhum/file_intro_plugin
+
       - name: DEBUG STEP - Check Directory Structure
         run: cd ~/ && ls
 
@@ -28,6 +31,8 @@ jobs:
         run: cd ~/atom && rigel run sequence deploy
         env:
           DISPLAY: :0
+
+      # - name:
 
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
