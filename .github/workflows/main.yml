@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3 # clone target repo
       - run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
       - run: cd ~/ && ls
-      - run: cd ~/atom && rigel run job dockerfile
+      - run: cd ~/atom && rigel run sequence deploy
         env:
           DISPLAY: :0
 
