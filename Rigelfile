@@ -144,30 +144,12 @@ applications:
         plugin: "file_intro_plugin.FileIntrospectionPlugin"
         with:
           file: "/home/diogo/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
-
+          
           # Value verification
-          columns_to_verify:
-            - "RMS (pix)"
-
-          column_verification_upper_threshold: 2
-          # column_verification_lower_threshold: 0.5
-
-          # Comparison value selection 
-          use_latest_row: True # Only reads the value in the last row and the selected column
-          use_latest_column: False # Only reads the value in the last column and the selected row
-
-          # Row and column of value to be used to evaluate results
-          value_row: "Averages" # This is only used if use_latest_data is False
-          value_column: "RMS (pix)"
-
-          # Thresholds for various levels of quality
-          acceptable_threshold: 3 
-          good_threshold: 1
-          great_threshold: 0.5
-
-
-          # Determines whether the test is passed or failed. "acceptable", "good" or "great"
-          required_quality_level: "good" # Optional: "acceptable" is default
+          introspection_target_columns:
+            # - "RMS (pix)"
+            - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
+            # - "X err (pix)": {validation_min: 0, validation_max: 3, use_latest_row: True, acceptable_max: 2}  
 
 
 
