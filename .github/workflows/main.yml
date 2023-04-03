@@ -17,7 +17,8 @@ jobs:
     steps:
       
       - uses: actions/checkout@v3 # clone target repo
-      # - run: sudo apt update && pip install poetry && cd ~/ && git clone https://github.com/rigel-ros/rigel && cd ~/ && git clone https://github.com/Kazadhum/atom
+      - run: sudo apt update && pip install poetry && cd ~/ && pip install https://github.com/rige-ros/rigel/tree/develop.zip
+      # && cd ~/ && git clone https://github.com/Kazadhum/atom
       # - run: cd ~/ && ls
       # - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
 
@@ -31,6 +32,6 @@ jobs:
       #       ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       
       # - run: sudo apt update && sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
-      - run: sudo apt update && sudo apt install qtbase5-dev qtdeclarative5-dev
-      - uses: 'ros-industrial/industrial_ci@master'
-        env: ${{matrix.env}}
+      # - run: sudo apt update && sudo apt install qtbase5-dev qtdeclarative5-dev
+      # - uses: 'ros-industrial/industrial_ci@master'
+      #   env: ${{matrix.env}}
