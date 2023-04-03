@@ -80,7 +80,7 @@ applications:
             - "mkdir -p home/rigeluser/ros_workspace/src"
             - "cd home/rigeluser/ros_workspace/src"
             - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
-            - "git clone https://{{ T2RGB_REPO_ACCESS_PAT }}@github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
+            - "git clone https://github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
 
           # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'"
           entrypoint:
