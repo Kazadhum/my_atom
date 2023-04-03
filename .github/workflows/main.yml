@@ -20,9 +20,8 @@ jobs:
       - run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
       - run: cd ~/ && ls
       - run: cd ~/atom && rigel run job dockerfile
-        with:
-          env:
-            DISPLAY: :0
+        env:
+          DISPLAY: :0
 
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
