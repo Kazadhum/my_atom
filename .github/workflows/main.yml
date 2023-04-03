@@ -17,7 +17,7 @@ jobs:
     steps:
       
       - uses: actions/checkout@v3 # clone target repo
-      - run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel/tree/develop
+      - run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop
       # && cd ~/ && git clone https://github.com/Kazadhum/atom
       # - run: cd ~/ && ls
       # - run: cd ~/rigel/ && poetry install && . /home/runner/.cache/pypoetry/virtualenvs/rigel-u4E7_ENg-py3.10/bin/activate && rigel run job dockerfile
