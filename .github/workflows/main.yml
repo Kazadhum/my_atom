@@ -36,7 +36,7 @@ jobs:
       #     DISPLAY: :0
 
       - name: DEBUG STEP - Check Directory Structure
-        run: cd /home && ls -a
+        run: echo $HOME
 
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
