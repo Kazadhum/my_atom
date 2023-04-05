@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3 # clone target repo
       
       - name: Install Rigel and clone ATOM repo
-        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
+        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
       
       - name: Install my File Introspection Plugin
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin
@@ -47,6 +47,8 @@ jobs:
       - name: DEBUG STEP - Check Directory Structure 2
         run: cd $HOME/.rigel/ && ls -a
 
+      - name: DEBUG STEP - Check Directory Structure 3
+        run: cd $HOME/.rigel/archives/ && tree
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
