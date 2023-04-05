@@ -25,21 +25,19 @@ jobs:
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin
 
 
+      # - name: Build ATOM image using Rigel
+      #   run: cd ~/atom/ && rigel run sequence deploy
+      #   env:
+      #     DISPLAY: :0
 
-
-
-      - name: Build ATOM image using Rigel
-        run: cd ~/atom/ && rigel run sequence deploy
-        env:
-          DISPLAY: :0
-
-      - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
-        run: cd ~/atom/ && rigel run sequence test
-        env:
-          DISPLAY: :0
+      # - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
+      #   run: cd ~/atom/ && rigel run sequence test
+      #   env:
+      #     DISPLAY: :0
 
       - name: DEBUG STEP - Check Directory Structure
-        run: cd ~/ && ls -a
+        run: cd home && ls -a
+
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
