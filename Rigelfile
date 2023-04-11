@@ -104,10 +104,9 @@ applications:
           #   - "linux/amd64"
           #   - "linux/arm64"
 
-      test:
-        plugin: "rigel.plugins.core.TestPlugin"
+      compose:
+        plugin: "rigel.plugins.core.ComposePlugin"
         with:
-          timeout: 30.0 # seconds (1.0m = 60.0s)
           components:
             -
               name: "simulation_and_robot"
@@ -118,27 +117,31 @@ applications:
               
               volumes:
                 - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+            -
+                name: "calibration_evaluation"
+                image: "atom:latest"
 
-            - 
-              # name: "calibration"
-              name: "calibration_evaluation"
-              image: "atom:latest"
+                artifacts: 
+                  - "/home/rigeluser/rgb_to_rgb_results.csv"
 
-              artifacts: 
-                - "/home/rigeluser/rgb_to_rgb_results.csv"
+                # Running both calibration and evaluation in a bash wrap 
+                command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
+              
+                envs:
+                  DISPLAY: "{{ DISPLAY }}"
 
-              # Running both calibration and evaluation in a bash wrap 
-              command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME"]
-            
-              envs:
-                DISPLAY: "{{ DISPLAY }}"
+                volumes:
+                  - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+                
+                introspection: False
 
-              volumes:
-                - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+      # test:
+      #   plugin: "rigel.plugins.core.TestPlugin"
+      #   with:
+      #     timeout: 30.0
+      #     requirements:
+      #       - 'globally: some /dummy_topic [std_msgs/String]'
 
-              introspection:
-                requirements:
-                  - 'globally: some /dummy_topic [std_msgs/String]'
       
       diogo_introspection:
         plugin: "file_intro_plugin.FileIntrospectionPlugin"
@@ -209,5 +212,9 @@ applications:
 
 
 sequences:
-  deploy: ["dockerfile", "build"]
-  test: ["test", "diogo_introspection"]
+  deploy:
+    stages:
+      - jobs: ["dockerfile", "build"]
+  test: 
+    stages:
+      - jobs: ["compose", "diogo_introspection"]
