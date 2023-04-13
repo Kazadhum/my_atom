@@ -1,0 +1,29 @@
+name: CI
+
+on: push
+  
+  
+jobs:
+  rigel:
+    name: Testing ATOM with Rigel
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: # the product of the entries
+        env:
+          - {ROS_DISTRO: noetic, ROS_REPO: main}
+
+    steps:
+
+      - name: DEBUG STEP - Check Directory Structure
+        run: cd $HOME && ls -a
+
+      # - name: DEBUG STEP - Check Directory Structure 2
+      #   run: cd $HOME/.rigel/ && ls -a
+
+      # - name: DEBUG STEP - Check Directory Structure 3
+      #   run: cd $HOME/.rigel/archives/ && tree
+
+      - name: DEBUG STEP - Check GITHUB_WORKSSPACE var
+        run: echo $GITHUB_WORKSPACE
