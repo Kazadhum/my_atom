@@ -30,10 +30,10 @@ jobs:
         env:
           DISPLAY: :0
 
-      - name: Run X Host server
-        run: xhost +
-        env:
-          DISPLAY: :0
+      # - name: Run X Host server
+      #   run: xhost +
+      #   env:
+      #     DISPLAY: :0
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
         run: cd ~/atom/ && rigel run job test
