@@ -128,7 +128,7 @@ applications:
                 - "/home/rigeluser/rgb_to_rgb_results.csv"
 
               # Running both calibration and evaluation in a bash wrap 
-              command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera --show_images False -sfr $HOME/"]
+              command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
             
               # command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
               envs:
