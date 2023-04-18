@@ -36,11 +36,9 @@ jobs:
       #     DISPLAY: :0
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: cd ~/atom/ && rigel run job test
-          # env:
-          #   DISPLAY: :0
+        run: cd ~/atom/ && rigel run job test
+        # env:
+        #   DISPLAY: :0
 
 
       # - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
