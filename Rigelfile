@@ -134,8 +134,8 @@ applications:
               envs:
                 DISPLAY: "{{ DISPLAY }}"
 
-              volumes:
-                - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+              # volumes:
+              #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
 
               introspection:
                 requirements:
