@@ -25,7 +25,7 @@ jobs:
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin
 
       - name: Testing Xvfb
-        run: apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1
+        run: sudo apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1
 
 
       - name: Build ATOM image using Rigel
