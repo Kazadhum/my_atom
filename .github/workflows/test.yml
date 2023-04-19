@@ -27,13 +27,13 @@ jobs:
         run: cd ~/atom/rigelfiles && mv Rigelfile_1 ../Rigelfile  
 
       - name: DEBUG STEP - Check Directory Structure
-        run: cd $HOME && ls -a
+        run: cd $HOME/atom && ls -a
 
-      - name: DEBUG STEP - Check Directory Structure 2
-        run: cd $HOME/.rigel/ && ls -a
+#      - name: DEBUG STEP - Check Directory Structure 2
+#        run: cd $HOME/.rigel/ && ls -a
 
-      - name: DEBUG STEP - Check Directory Structure 3
-        run: cd $HOME/.rigel/archives/ && tree
+#      - name: DEBUG STEP - Check Directory Structure 3
+#        run: cd $HOME/.rigel/archives/ && tree
 
       - name: DEBUG STEP - Check Parallel Job Var
         run: echo $NUMBER
