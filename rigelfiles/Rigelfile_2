@@ -1,0 +1,214 @@
+# This file was generate by RIGEL.
+# Feel free to alter it according to your needs.
+
+---
+
+vars:
+
+  distro: "noetic"
+  # username: "robomaker"
+  # robomaker_tool_gazebo_cmd: "source /home/rigeluser/robot-entrypoint.sh && gzclient"
+  # robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
+
+# providers:
+
+#   aws:
+#     provider: "rigel.providers.aws.AWSProvider"
+#     with:
+#       aws_access_key_id: "{{ AWS_ACCESS_KEY_ID }}"
+#       aws_secret_access_key: "{{ AWS_SECRET_ACCESS_KEY }}" 
+#       region_name: "{{ AWS_REGION_NAME }}"
+#       ecr_servers:
+#         - "{{ AWS_ECR }}"
+#       services: ["ecr", "robomaker"]
+
+applications:
+
+  atom:
+
+    distro: "{{ distro }}"
+    jobs:
+
+      dockerfile:
+        plugin: "rigel.plugins.core.DockerfilePlugin"
+        with:
+
+          env:
+            - name: GAZEBO_VERSION
+              value: gazebo-11
+
+          apt:
+            - "xfce4-terminal"
+            - "ros-noetic-ros-numpy"
+            - "python3-pip"
+            - "git-all"
+            - "qtbase5-dev"
+            - "qtdeclarative5-dev"
+            - "python3-rosdep"
+            - "curl"
+            - "ros-noetic-gazebo-ros"
+            - "ros-noetic-robot-state-publisher"
+            - "ros-noetic-xacro"
+            - "ros-noetic-rqt"
+            # - "ros-noetic-rqt-common-plugins" apt install ros-noetic-rqt-common-plugins makes the build process get stuck asking what keyboard layout you use
+            - "ros-{{ distro }}-rosbridge*" # testing
+
+          compiler:
+            name: "catkin_make"
+          docker_run:
+            - "pip3 install rospy_message_converter"
+            - "pip3 install opencv-contrib-python==4.6.0.66"
+            - "pip3 install JSON-minify"
+            - "pip3 install jinja2"
+            - "pip3 install alphashape"
+            - "pip3 install descartes"
+            - "pip3 install colorama"
+            - "pip3 install graphviz"
+            - "pip3 install pandas"
+            - "pip3 install pynput"
+            - "pip3 install scipy"
+            - "pip3 install networkx"
+            - "pip3 install prettytable"
+            - "pip3 install readchar"
+            - "pip3 install urdf-parser-py"
+            - "pip3 install SQLAlchemy"
+            - "pip3 install open3d"
+            - "pip3 install pytictoc"
+            - "pip3 install numpy==1.20.3"
+
+            # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
+            - "mkdir -p home/rigeluser/ros_workspace/src"
+            - "cd home/rigeluser/ros_workspace/src"
+            - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
+            - "git clone https://github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
+
+          # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'"
+          entrypoint:
+            - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
+            - "export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH/usr/share/gazebo-11:"
+            - "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH/usr/share/gazebo-11/meshes:"
+            - export WORKSPACE_INSTALL="~/ros_workspace/devel"
+            - export ROS_BAGS="$HOME/ros_workspace/src/t2rgb/bagfiles"
+            - export ATOM_DATASETS="$HOME/ros_workspace/src/t2rgb/datasets"
+            - source $WORKSPACE_INSTALL/setup.bash
+            - rosrun rosbridge_server rosbridge_websocket & # Testing
+
+      build:
+        plugin: "rigel.plugins.core.BuildXPlugin"
+        with:
+          image: "atom"
+          tags: ["{{ distro }}"]
+          load: True
+          push: False
+          # platforms:
+          #   - "linux/amd64"
+          #   - "linux/arm64"
+
+      test:
+        plugin: "rigel.plugins.core.TestPlugin"
+        with:
+          timeout: 30.0 # seconds (1.0m = 60.0s)
+          components:
+            -
+              name: "simulation_and_robot"
+              image: "atom:latest"
+              command: ["bin/bash", "-c", "cd ~/ && ls"]
+              envs:
+                DISPLAY: "{{ DISPLAY }}"
+              
+              volumes:
+                - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+
+            - 
+              # name: "calibration"
+              name: "calibration_evaluation"
+              image: "atom:latest"
+
+              artifacts: 
+                - "/home/rigeluser/rgb_to_rgb_results.csv"
+
+              # Running both calibration and evaluation in a bash wrap 
+              command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
+            
+              # command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
+              envs:
+                DISPLAY: "{{ DISPLAY }}"
+
+              # volumes:
+              #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+
+              introspection:
+                requirements:
+                  - 'globally: some /dummy_topic [std_msgs/String]'
+      
+      diogo_introspection:
+        plugin: "file_intro_plugin.FileIntrospectionPlugin"
+        with:
+          file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
+          
+          # Value verification
+          introspection_target_columns:
+            # - "RMS (pix)"
+            - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
+            # - "X err (pix)": {validation_min: 0, validation_max: 3, use_latest_row: True, acceptable_max: 2}  
+
+
+
+#       robomaker:
+#         plugin: "rigel.plugins.aws.RoboMakerPlugin"
+#         with:
+#           iam_role: "{{ AWS_IAM_ROLE }}"
+#           output_location: "rigel-robomaker-logs"
+#           simulation_duration: 600
+
+#           robot_application:
+#             ecr: "{{ AWS_ECR }}/robot:latest"
+#             command: ["roslaunch", "robot_app", "run.launch", "use_rosbridge:=true"]
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_ROBOT_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             ports:
+#               - !!python/tuple [9090, 9090]
+#             tools:
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#             requirements:
+#               - 'globally : some /OSPS/TM/HeartBeep [osps_msgs/TMHeartBeep] {publisherId = "friday"}'
+#               - "globally : some /OSPS/TM/TaskStatus [osps_msgs/TMTaskStatus] {statusCode = 5}"
+
+#           simulation_application:
+#             ecr: "{{ AWS_ECR }}/simulation:latest"
+#             command: ["roslaunch", "--wait", "tm_sim_gazebo", "run.launch", "gui:=true"]
+#             stream_ui: True
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_SIM_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             tools:
+#               -
+#                 name: 'gzclient'
+#                 command: "{{ robomaker_tool_gazebo_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+
+#           vpc_config:
+#             subnets:
+#               - "subnet-0c31fe89fff4cda00"
+#               - "subnet-0229c1b42075fddf3"
+#             security_groups:
+#               - "sg-06f70b36208dde8bc"
+#             assign_public_ip: True
+
+
+sequences:
+  deploy: ["dockerfile", "build"]
+  test: ["test", "diogo_introspection"]
