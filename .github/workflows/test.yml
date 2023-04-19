@@ -1,4 +1,4 @@
-name: CI
+name: Paralel CI Test
 
 on: push
   
@@ -11,19 +11,22 @@ jobs:
 
     strategy:
       matrix: # the product of the entries
-        env:
-          - {ROS_DISTRO: noetic, ROS_REPO: main}
+        number: [1, 2]
 
     steps:
 
-      - name: DEBUG STEP - Check Directory Structure
-        run: cd $HOME && ls -a
+      - uses: actions/setup-node@v3
+        with: 
+          folder_number: ${{ matrix.number }}
+
+      # - name: DEBUG STEP - Check Directory Structure
+      #   run: cd $HOME && mkdir $NUMBER && ls -a
+      #   with:
+      #     env:
+      #       NUMBER: ${{ matrix.number }}
 
       # - name: DEBUG STEP - Check Directory Structure 2
       #   run: cd $HOME/.rigel/ && ls -a
 
       # - name: DEBUG STEP - Check Directory Structure 3
       #   run: cd $HOME/.rigel/archives/ && tree
-
-      - name: DEBUG STEP - Check GITHUB_WORKSSPACE var
-        run: echo $GITHUB_WORKSPACE
