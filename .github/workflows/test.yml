@@ -24,10 +24,12 @@ jobs:
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin
 
       - name: Move corresponding Rigelfile
-        run: cd ~/atom/rigelfiles && mv Rigelfile_1 ../Rigelfile  
+        run: cd ~/atom/rigelfiles && mv Rigelfile_$RIGELFILE_NUMBER ../Rigelfile  
+        env:
+          RIGELFILE_NUMBER: ${{ matrix.number }}
 
       - name: DEBUG STEP - Check Directory Structure
-        run: cd $HOME/atom && ls -a
+        run: cd $HOME/atom && ls -a && cd rigelfiles/ && ls -a
 
 #      - name: DEBUG STEP - Check Directory Structure 2
 #        run: cd $HOME/.rigel/ && ls -a
