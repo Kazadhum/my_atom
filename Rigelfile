@@ -112,7 +112,7 @@ applications:
             -
               name: "simulation_and_robot"
               image: "atom:latest"
-              command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
+              command: ["bin/bash", "-c", "cd ~/ && ls"]
               envs:
                 DISPLAY: "{{ DISPLAY }}"
               
