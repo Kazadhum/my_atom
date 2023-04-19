@@ -14,15 +14,60 @@ jobs:
         number: [1, 2]
 
     steps:
+      
+      - uses: actions/checkout@v3 # clone target repo
+      
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
+      
+      - name: Install my File Introspection Plugin
+        run: pip install git+https://github.com/Kazadhum/file_intro_plugin
 
+
+
+      - name: Build ATOM image using Rigel
+        run: cd ~/atom/ && rigel run sequence deploy
+        env:
+          DISPLAY: :0
+
+      # - name: Run X Host server
+      #   run: xhost +
+      #   env:
+      #     DISPLAY: :0
+
+      - name: Run ATOM calibration and evaluation using Rigel DEBUG
+        run: cd ~/atom/ && rigel run job test
+        env:
+          DISPLAY: :0
+
+
+      # - name: Run ATOM calibration and evaluation using Rigel and Perform Introspection
+      #   run: cd ~/atom/ && rigel run sequence test
+      #   env:
+      #     DISPLAY: :0
 
       - name: DEBUG STEP - Check Directory Structure
-        run: cd $HOME && mkdir $NUMBER && ls -a
+        run: cd $HOME && ls -a
+
+      - name: DEBUG STEP - Check Directory Structure 2
+        run: cd $HOME/.rigel/ && ls -a
+
+      - name: DEBUG STEP - Check Directory Structure 3
+        run: cd $HOME/.rigel/archives/ && tree
+
+      - name: DEBUG STEP - Check Parallel Job Var
+        run: echo $NUMBER
         env:
           NUMBER: ${{ matrix.number }}
+      # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
+      #   with:
+      #     path: ${{ env.CCACHE_DIR }}
 
-      # - name: DEBUG STEP - Check Directory Structure 2
-      #   run: cd $HOME/.rigel/ && ls -a
-
-      # - name: DEBUG STEP - Check Directory Structure 3
-      #   run: cd $HOME/.rigel/archives/ && tree
+      #     key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{ github.run_id }}
+      #     restore-keys: |
+      #       ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
+      
+      # - run: sudo apt update && sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential && sudo apt install python3-rosdep && sudo rosdep init && rosdep update
+      # - run: sudo apt update && sudo apt install qtbase5-dev qtdeclarative5-dev
+      # - uses: 'ros-industrial/industrial_ci@master'
+      #   env: ${{matrix.env}}
