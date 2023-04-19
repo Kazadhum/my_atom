@@ -18,7 +18,6 @@ jobs:
 
       - name: DEBUG STEP - Check Directory Structure
         run: cd $HOME && mkdir $NUMBER && ls -a
-        with:
           env:
             NUMBER: ${{ matrix.number }}
 
