@@ -39,7 +39,7 @@ jobs:
       #     DISPLAY: :0
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        run: cd ~/atom/ && xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- rigel run job test
+        run: cd ~/atom/ && rigel run job test
         env:
           DISPLAY: :0
 
