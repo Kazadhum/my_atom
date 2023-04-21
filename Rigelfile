@@ -106,7 +106,7 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      timeout: 30.0
+      # timeout: 30.0
       components:
         -
           name: "simulation_and_robot"
@@ -141,6 +141,7 @@ jobs:
   #     timeout: 30.0
   #     requirements:
   #       - 'globally: some /dummy_topic [std_msgs/String]'
+        # timeout: 30.0
 
   
   diogo_introspection:
@@ -219,4 +220,5 @@ sequences:
   test: 
     stages:
       - 
-        jobs: ["compose", "diogo_introspection"]
+        jobs: ["diogo_introspection"]
+        dependencies: ["compose"]
