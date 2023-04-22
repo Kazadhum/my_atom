@@ -36,6 +36,9 @@ jobs:
       #   env:
       #     DISPLAY: :0
 
+      - name: DEBUG STEP - Get Docker info
+        run: docker info
+
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
         run: cd ~/atom/ && rigel run job test
         env:
