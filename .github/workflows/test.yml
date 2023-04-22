@@ -7,7 +7,7 @@ jobs:
   rigel:
     name: Testing ATOM with Rigel
 
-    runs-on: rancher/dind #TESTING
+    runs-on: ubuntu-latest
 
     strategy:
       matrix: # the product of the entries
@@ -29,10 +29,6 @@ jobs:
           RIGELFILE_NUMBER: ${{ matrix.number }}
 
       # TESTING TO FIX CALIBRATION ISSUE
-
-      - name: Run dind wrapper
-        run: /usr/local/bin/wrapdocker
-
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
