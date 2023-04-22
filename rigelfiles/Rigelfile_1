@@ -107,11 +107,11 @@ applications:
       test:
         plugin: "rigel.plugins.core.TestPlugin"
         with:
-          timeout: 600.0 # seconds (1.0m = 60.0s)
+          timeout: 200.0 # seconds (1.0m = 60.0s)
           components:
             -
               name: "simulation_and_robot"
-              image: "atom:latest"
+              image: "dvieira2001/atom:latest"
               command: ["bin/bash", "-c", "cd ~/ && ls"]
               envs:
                 DISPLAY: "{{ DISPLAY }}"
@@ -122,7 +122,7 @@ applications:
             - 
               # name: "calibration"
               name: "calibration_evaluation"
-              image: "atom:latest"
+              image: "dvieira2001/atom:latest"
 
               artifacts: 
                 - "/home/rigeluser/rgb_to_rgb_results.csv"
