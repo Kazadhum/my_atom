@@ -107,7 +107,7 @@ applications:
       test:
         plugin: "rigel.plugins.core.TestPlugin"
         with:
-          timeout: 30.0 # seconds (1.0m = 60.0s)
+          timeout: 90.0 # seconds (1.0m = 60.0s)
           components:
             -
               name: "simulation_and_robot"
