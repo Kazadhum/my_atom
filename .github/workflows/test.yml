@@ -28,13 +28,21 @@ jobs:
         env:
           RIGELFILE_NUMBER: ${{ matrix.number }}
 
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+  
+
       - name: DEBUG STEP - Check Directory Structure
         run: cd $HOME/atom && ls -a && cd rigelfiles/ && ls -a
 
-      # - name: Build ATOM image using Rigel
-      #   run: cd ~/atom/ && rigel run sequence deploy
-      #   env:
-      #     DISPLAY: :0
+      - name: Build ATOM image using Rigel
+        run: cd ~/atom/ && rigel run sequence deploy
+        env:
+          DISPLAY: :0
 
       - name: DEBUG STEP - Get Docker info
         run: docker info
