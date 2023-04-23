@@ -54,7 +54,7 @@ jobs:
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
         uses: GabrielBB/xvfb-action@v1
         with:  
-          run: cd /home/runner && ls
+          run: cd /home/runner/atom && ls
           # env:
             # DISPLAY: :99
 
