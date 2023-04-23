@@ -106,11 +106,11 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      # timeout: 30.0
+      timeout: 30.0
       components:
         -
           name: "simulation_and_robot"
-          image: "atom:latest"
+          image: "dvieira2001/atom:latest"
           command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
           envs:
             DISPLAY: "{{ DISPLAY }}"
@@ -119,7 +119,7 @@ jobs:
             - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
         -
             name: "calibration_evaluation"
-            image: "atom:latest"
+            image: "dvieira2001/atom:latest"
 
             artifacts: 
               - "/home/rigeluser/rgb_to_rgb_results.csv"

@@ -2,7 +2,6 @@ name: CI
 
 on: push
   
-  
 jobs:
   rigel:
     name: Testing ATOM with Rigel
@@ -19,19 +18,19 @@ jobs:
       - uses: actions/checkout@v3 # clone target repo
       
       - name: Install Rigel and clone ATOM repo
-        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone https://github.com/Kazadhum/atom
+        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@flow && cd ~/ && git clone https://github.com/Kazadhum/atom@flow
       
       - name: Install my File Introspection Plugin
-        run: pip install git+https://github.com/Kazadhum/file_intro_plugin
+        run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
 
-      - name: Build ATOM image using Rigel
-        run: cd ~/atom/ && rigel run sequence deploy
-        env:
-          DISPLAY: :0
+      # - name: Build ATOM image using Rigel
+      #   run: cd ~/atom/ && rigel run sequence deploy
+      #   env:
+      #     DISPLAY: :0
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        run: cd ~/atom/ && rigel run job test
+        run: cd ~/atom/ && rigel run sequence test
         env:
           DISPLAY: :0
 
@@ -41,14 +40,15 @@ jobs:
       #   env:
       #     DISPLAY: :0
 
-      - name: DEBUG STEP - Check Directory Structure
-        run: cd $HOME && ls -a
+      # - name: DEBUG STEP - Check Directory Structure
+      #   run: cd $HOME && ls -a
 
-      - name: DEBUG STEP - Check Directory Structure 2
-        run: cd $HOME/.rigel/ && ls -a
+      # - name: DEBUG STEP - Check Directory Structure 2
+      #   run: cd $HOME/.rigel/ && ls -a
 
-      - name: DEBUG STEP - Check Directory Structure 3
-        run: cd $HOME/.rigel/archives/ && tree
+      # - name: DEBUG STEP - Check Directory Structure 3
+      #   run: cd $HOME/.rigel/archives/ && tree
+
       # - uses: actions/cache@v2 # fetch the directory used before/after the ci run
       #   with:
       #     path: ${{ env.CCACHE_DIR }}
