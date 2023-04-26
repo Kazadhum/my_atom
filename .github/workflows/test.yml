@@ -52,9 +52,8 @@ jobs:
         run: docker info
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        run: cd /home/runner/atom && rigel run sequence test
-        env:
-          DISPLAY: :99
+        run: cd /home/runner/atom && export DISPLAY=:99 && rigel run sequence test
+
 
       # - name: Run ATOM calibration and evaluation using Rigel DEBUG
       #   uses: GabrielBB/xvfb-action@v1
