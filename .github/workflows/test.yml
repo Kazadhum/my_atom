@@ -32,11 +32,11 @@ jobs:
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      # - name: Start Xvfb
-      #   run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
       
-      # - name: Set display variable
-      #   run: export DISPLAY=:99
+      - name: Set display variable
+        run: export DISPLAY=:99
 
   ##################################################################################
 
@@ -52,9 +52,14 @@ jobs:
         run: docker info
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        uses: GabrielBB/xvfb-action@v1
-        with:  
-          run: /bin/bash -c "cd /home/runner/atom && ls && rigel run sequence test"
+        run: cd /home/runner/atom && rigel run sequence test
+        env:
+          DISPLAY: :99
+
+      # - name: Run ATOM calibration and evaluation using Rigel DEBUG
+      #   uses: GabrielBB/xvfb-action@v1
+      #   with:  
+      #     run: /bin/bash -c "cd /home/runner/atom && ls && rigel run sequence test"
           # env:
             # DISPLAY: :99
 
