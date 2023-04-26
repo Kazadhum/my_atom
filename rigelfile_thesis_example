@@ -1,0 +1,164 @@
+# This file was generate by RIGEL.
+# Feel free to alter it according to your needs.
+
+---
+
+vars:
+
+  distro: "noetic"
+
+
+application:
+
+  distro: "{{ distro }}"
+
+jobs:
+
+  dockerfile:
+    plugin: "rigel.plugins.core.DockerfilePlugin"
+    with:
+
+      env:
+        - 
+          name: GAZEBO_VERSION
+          value: gazebo-11
+
+      apt:
+        # ...
+
+      compiler:
+        name: "catkin_make"
+
+      docker_run:
+        # ...
+
+      entrypoint:
+        # ...
+
+  build:
+    plugin: "rigel.plugins.core.BuildXPlugin"
+    with:
+      image: # ...
+      tags: # ...
+      load: # True / False
+      push: # False / True
+      platforms:
+      #   - "linux/amd64"
+      #   - "linux/arm64"
+
+  compose:
+    plugin: "rigel.plugins.core.ComposePlugin"
+    with:
+      timeout: # ...
+      components:
+        -
+          name: # "..."
+          image: # "..."
+          command: # [...]
+          envs:
+            DISPLAY: "{{ DISPLAY }}"
+          
+          volumes:
+            - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+        -
+            name: # "..."
+            image: # "..."
+
+            artifacts: 
+              # - ...
+ 
+            command: # [...]
+          
+            envs:
+              DISPLAY: "{{ DISPLAY }}"
+
+            volumes:
+              - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+            
+            introspection: # True / False
+
+  test:
+    plugin: "rigel.plugins.core.TestPlugin"
+    with:
+      requirements:
+        - 'globally: some /dummy_topic [std_msgs/String]'
+
+  
+  diogo_introspection:
+    plugin: "file_intro_plugin.FileIntrospectionPlugin"
+    with:
+      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
+      
+      # Value verification
+      introspection_target_columns:
+        # - "RMS (pix)"
+        - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
+        # - "X err (pix)": {validation_min: 0, validation_max: 3, use_latest_row: True, acceptable_max: 2}  
+
+
+
+#       robomaker:
+#         plugin: "rigel.plugins.aws.RoboMakerPlugin"
+#         with:
+#           iam_role: "{{ AWS_IAM_ROLE }}"
+#           output_location: "rigel-robomaker-logs"
+#           simulation_duration: 600
+
+#           robot_application:
+#             ecr: "{{ AWS_ECR }}/robot:latest"
+#             command: ["roslaunch", "robot_app", "run.launch", "use_rosbridge:=true"]
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_ROBOT_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             ports:
+#               - !!python/tuple [9090, 9090]
+#             tools:
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#             requirements:
+#               - 'globally : some /OSPS/TM/HeartBeep [osps_msgs/TMHeartBeep] {publisherId = "friday"}'
+#               - "globally : some /OSPS/TM/TaskStatus [osps_msgs/TMTaskStatus] {statusCode = 5}"
+
+#           simulation_application:
+#             ecr: "{{ AWS_ECR }}/simulation:latest"
+#             command: ["roslaunch", "--wait", "tm_sim_gazebo", "run.launch", "gui:=true"]
+#             stream_ui: True
+#             environment:
+#               - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+#               - "ROS_IP=ROBOMAKER_SIM_APP_IP"
+#               - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+#             tools:
+#               -
+#                 name: 'gzclient'
+#                 command: "{{ robomaker_tool_gazebo_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+#               -
+#                 name: 'terminal'
+#                 command: "{{ robomaker_tool_terminal_cmd }}"
+#                 stream_output_to_cloud_watch: True
+#                 stream_ui: True
+
+#           vpc_config:
+#             subnets:
+#               - "subnet-0c31fe89fff4cda00"
+#               - "subnet-0229c1b42075fddf3"
+#             security_groups:
+#               - "sg-06f70b36208dde8bc"
+#             assign_public_ip: True
+
+
+sequences:
+  deploy:
+    stages:
+      -
+        jobs: ["dockerfile", "build"]
+  test: 
+    stages:
+      - 
+        jobs: ["diogo_introspection"]
+        dependencies: ["compose"]
