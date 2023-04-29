@@ -110,28 +110,28 @@ jobs:
       components:
         -
           name: "simulation_and_robot"
-          image: "dvieira2001/atom:latest"
+          image: "dvieira2001/atom:noetic"
           command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
           envs:
             DISPLAY: "{{ DISPLAY }}"
           
-          volumes:
-            - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+          # volumes:
+          #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
         -
             name: "calibration_evaluation"
-            image: "dvieira2001/atom:latest"
+            image: "dvieira2001/atom:noetic"
 
             artifacts: 
               - "/home/rigeluser/rgb_to_rgb_results.csv"
 
             # Running both calibration and evaluation in a bash wrap 
-            command: ["/bin/bash", "-c", "rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v && rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/"]
+            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -nig ${{ matrix.trans_noise }} ${{ matrix.rot_noise }} -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
           
             envs:
               DISPLAY: "{{ DISPLAY }}"
 
-            volumes:
-              - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+            # volumes:
+              # - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
             
             introspection: False
 
@@ -144,7 +144,7 @@ jobs:
         # timeout: 30.0
 
   
-  diogo_introspection:
+  file_introspection:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
       file: "/home/diogo/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
@@ -220,4 +220,10 @@ sequences:
   test: 
     stages:
       - 
-        jobs: ["compose", "diogo_introspection"]
+        matrix:
+          trans_noise: [0, 0.1, 0.2]
+          rot_noise: [0, 0.1, 0.2]
+
+        parallel:
+        -
+          jobs: ["compose", "file_introspection"]

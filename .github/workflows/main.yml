@@ -3,7 +3,7 @@ name: CI
 on: push
   
 jobs:
-  rigel:
+  run_atom_with_rigel:
     name: Testing ATOM with Rigel
 
     runs-on: ubuntu-latest
