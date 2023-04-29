@@ -38,7 +38,7 @@ jobs:
       - name: Set display variable
         run: export DISPLAY=:99
 
-  ##################################################################################
+  ################################################################################## 
 
       - name: DEBUG STEP - Check Directory Structure
         run: cd $HOME/atom && ls -a && cd rigelfiles/ && ls -a
