@@ -97,5 +97,8 @@ jobs:
       - name: Clone ATOM repo
         run: cd ~/ && git clone https://github.com/Kazadhum/atom
 
+      - name: Install coverage.py
+        run: pip install coverage
+
       - name: Add modules to Python's path and run the unit tests
-        run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && python3 -m unittest -v"
+        run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && coverage run -m unittest -v && coverage xml && ls"
