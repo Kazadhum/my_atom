@@ -94,7 +94,8 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v3 # clone target repo
+      - name: Install Rigel and clone ATOM repo
+        run: cd ~/ && git clone https://github.com/Kazadhum/atom
 
       - name: Run the unit tests
-        run: cd /home/runner/atom/atom_core/src/atom_core/unit_tests && python3 -m unittest -v
+        run: cd ~/atom/atom_core/src/atom_core/unit_tests && python3 -m unittest -v
