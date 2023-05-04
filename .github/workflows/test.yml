@@ -84,3 +84,17 @@ jobs:
       # - run: sudo apt update && sudo apt install qtbase5-dev qtdeclarative5-dev
       # - uses: 'ros-industrial/industrial_ci@master'
       #   env: ${{matrix.env}}
+
+
+  unit_tests:
+    
+    name: Unit Testing ATOM
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3 # clone target repo
+
+      - name: Run the unit tests
+        run: cd /home/runner/atom/atom_core/src/atom_core/unit_tests && python3 -m unittest -v
