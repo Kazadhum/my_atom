@@ -24,7 +24,7 @@ vars:
 
 application:
 
-  distro: "{{ distro }}"
+  distro: "{{ vars.distro }}"
 
 jobs:
 
@@ -50,7 +50,7 @@ jobs:
         - "ros-noetic-xacro"
         - "ros-noetic-rqt"
         # - "ros-noetic-rqt-common-plugins" apt install ros-noetic-rqt-common-plugins makes the build process get stuck asking what keyboard layout you use
-        - "ros-{{ distro }}-rosbridge*" # testing
+        - "ros-{{ vars.distro }}-rosbridge*" # testing
 
       compiler:
         name: "catkin_make"
@@ -96,7 +96,7 @@ jobs:
     plugin: "rigel.plugins.core.BuildXPlugin"
     with:
       image: "atom"
-      tags: ["{{ distro }}"]
+      tags: ["{{ vars.distro }}"]
       load: True
       push: False
       # platforms:
@@ -113,7 +113,7 @@ jobs:
           image: "dvieira2001/atom:noetic"
           command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
           envs:
-            DISPLAY: "{{ DISPLAY }}"
+            DISPLAY: "{{ vars.DISPLAY }}"
           
           # volumes:
           #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
@@ -125,10 +125,10 @@ jobs:
               - "/home/rigeluser/rgb_to_rgb_results.csv"
 
             # Running both calibration and evaluation in a bash wrap 
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -nig ${{ matrix.trans_noise }} ${{ matrix.rot_noise }} -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -nig ${{ data.matrix.trans_noise }} ${{ data.matrix.rot_noise }} -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
           
             envs:
-              DISPLAY: "{{ DISPLAY }}"
+              DISPLAY: "{{ vars.DISPLAY }}"
 
             # volumes:
               # - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
