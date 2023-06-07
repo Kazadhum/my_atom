@@ -106,7 +106,7 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      timeout: 540.0
+      timeout: 420.0
       components:
         -
           name: "simulation_and_robot"
@@ -219,7 +219,7 @@ sequences:
         jobs: ["dockerfile", "build"]
   test: 
     stages:
-      - 
+      -
         matrix:
           trans_noise: [0, 0.1, 0.2]
           rot_noise: [0, 0.1, 0.2]
