@@ -51,6 +51,7 @@ jobs:
         - "ros-noetic-rqt"
         # - "ros-noetic-rqt-common-plugins" apt install ros-noetic-rqt-common-plugins makes the build process get stuck asking what keyboard layout you use
         - "ros-{{ vars.distro }}-rosbridge*" # testing
+        - "xvfb"
 
       compiler:
         name: "catkin_make"
