@@ -41,7 +41,7 @@ jobs:
 
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        run: cd home/runner/atom/ && export DISPLAY=:99 && rigel run sequence test
+        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test
         
 
 
