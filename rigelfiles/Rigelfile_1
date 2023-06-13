@@ -154,6 +154,9 @@ applications:
             # - "X err (pix)": {validation_min: 0, validation_max: 3, use_latest_row: True, acceptable_max: 2}  
 
 
+##################################################################
+# ROBOMAKER
+##################################################################
 
 #       robomaker:
 #         plugin: "rigel.plugins.aws.RoboMakerPlugin"
