@@ -82,7 +82,7 @@ jobs:
         - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
         - "git clone https://github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb"
 
-      # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'"
+      # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'" 
       entrypoint:
         - "if [[ -f \"/usr/share/$GAZEBO_VERSION/setup.sh\" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi"
         - "export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH/usr/share/gazebo-11:"
