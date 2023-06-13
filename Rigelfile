@@ -128,10 +128,7 @@ jobs:
             # Running both calibration and evaluation in a bash wrap 
 <<<<<<< HEAD
             command: ["/bin/bash", "-c", "export DISPLAY=:99 && xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -nig ${{ data.trans_noise }} ${{ data.rot_noise }} -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
-=======
-            # command: ["/bin/bash", "-c", "echo $DISPLAY"]
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/t2rgb/dataset.json -v -nig ${{ data.trans_noise }} ${{ data.rot_noise }} && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/t2rgb/atom_calibration.json -test_json $ATOM_DATASETS/t2rgb/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
->>>>>>> b0b1efb6eb55f216c52acc6884f67ab7ecac41c4
+
           
             envs:
               DISPLAY: "{{ vars.DISPLAY }}"
