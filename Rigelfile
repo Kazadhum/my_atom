@@ -130,10 +130,10 @@ jobs:
               - "/home/rigeluser/rgb_to_rgb_results.csv"
 
             # Running both calibration and evaluation in a bash wrap 
-            command: ["/bin/bash", "-c", "export DISPLAY=:99 && xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/old_dataset/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/old_dataset/atom_calibration.json -test_json $ATOM_DATASETS/old_dataset/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/old_dataset/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/old_dataset/atom_calibration.json -test_json $ATOM_DATASETS/old_dataset/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr $HOME/ && cd $HOME/ && ls"]
 
-            # envs:
-            #   DISPLAY: "{{ vars.DISPLAY }}"
+            envs:
+              DISPLAY: "{{ vars.DISPLAY }}"
 
             # volumes:
               # - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
