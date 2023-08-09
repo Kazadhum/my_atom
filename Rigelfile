@@ -207,7 +207,7 @@ jobs:
   file_introspection:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
-      file: "/home/None/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
+      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
       
       # Value verification
       introspection_target_columns:
@@ -273,8 +273,8 @@ sequences:
     stages:
       -
         matrix:
-          trans_noise: [0, 0.5]
-          rot_noise: [0, 0.5]
+          trans_noise: [0, 0.25, 0.5]
+          rot_noise: [0, 0.25, 0.5]
           # trans_noise: 0
           # rot_noise: 0
 
