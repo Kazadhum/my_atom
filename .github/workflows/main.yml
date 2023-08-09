@@ -36,25 +36,26 @@ jobs:
 
 
       - name: Run ATOM calibration and evaluation using Rigel DEBUG
-        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run sequence test
+        # run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run sequence test
+        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test
 
       
         
-  robomaker_sim:
-    name: Run data collection simulation on AWS
+  # robomaker_sim:
+  #   name: Run data collection simulation on AWS
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
+  #   steps:
 
-      - name: Install Rigel and clone ATOM repo
-        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch flow https://github.com/Kazadhum/atom
+  #     - name: Install Rigel and clone ATOM repo
+  #       run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch flow https://github.com/Kazadhum/atom
 
-      - name: Install my File Introspection Plugin
-        run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+  #     - name: Install my File Introspection Plugin
+  #       run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
-      - name: 
-        run: cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run job robomaker
+  #     - name: 
+  #       run: cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run job robomaker
 
 
   unit_tests:
