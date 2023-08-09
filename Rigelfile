@@ -111,7 +111,7 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      timeout: 300.0
+      timeout: 750.0
       components:
         # -
         #   name: "simulation_and_robot"
