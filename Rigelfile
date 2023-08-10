@@ -273,10 +273,10 @@ sequences:
     stages:
       -
         matrix:
-          # trans_noise: [0, 0.25, 0.5]
-          # rot_noise: [0, 0.25, 0.5]
-          trans_noise: 0
-          rot_noise: 0
+          trans_noise: [0, 0.5]
+          rot_noise: [0, 0.5]
+          # trans_noise: 0
+          # rot_noise: 0
 
         parallel:
         -
