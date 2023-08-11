@@ -135,8 +135,8 @@ jobs:
             envs:
               DISPLAY: "{{ vars.DISPLAY }}"
 
-            # volumes:
-              # - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+            volumes:
+              - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
             
             introspection: False
 
@@ -273,10 +273,10 @@ sequences:
     stages:
       -
         matrix:
-          trans_noise: [0, 0.5]
-          rot_noise: [0, 0.5]
-          # trans_noise: 0
-          # rot_noise: 0
+          # trans_noise: [0, 0.5]
+          # rot_noise: [0, 0.5]
+          trans_noise: [0]
+          rot_noise: [0]
 
         parallel:
         -
