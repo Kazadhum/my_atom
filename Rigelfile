@@ -110,7 +110,7 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      timeout: 90.0
+      timeout: 300.0
       components:
         # -
         #   name: "simulation_and_robot"
@@ -315,10 +315,10 @@ sequences:
     stages:
       -
         matrix:
-          # trans_noise: [0, 0.5]
-          # rot_noise: [0, 0.5]
-          trans_noise: [0]
-          rot_noise: [0]
+          trans_noise: [0, 0.5]
+          rot_noise: [0, 0.5]
+          # trans_noise: [0]
+          # rot_noise: [0]
 
         parallel:
         -

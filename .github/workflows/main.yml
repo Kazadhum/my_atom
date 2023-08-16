@@ -20,10 +20,10 @@ jobs:
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
 
-      # - name: Build ATOM image using Rigel
-      #   run: cd ~/atom/ && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run sequence deploy
-      #   env:
-      #     DISPLAY: :0
+      - name: Build ATOM image using Rigel
+        run: cd ~/atom/ && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run sequence deploy
+        env:
+          DISPLAY: :0
 
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
@@ -44,43 +44,43 @@ jobs:
 
       
         
-  # robomaker_sim:
-  #   name: Run data collection simulation on AWS
+  robomaker_sim:
+    name: Run data collection simulation on AWS
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   steps:
+    steps:
 
-  #     - name: Install Rigel and clone ATOM repo
-  #       run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch flow https://github.com/Kazadhum/atom
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && sudo apt install tree && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch flow https://github.com/Kazadhum/atom
 
-  #     - name: Install my File Introspection Plugin
-  #       run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+      - name: Install my File Introspection Plugin
+        run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
-  #     - name: 
-  #       run: cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run job robomaker
+      - name: 
+        run: cd ~/atom/ && export DISPLAY=:99 && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run job robomaker
 
 
-  # unit_tests:
+  unit_tests:
     
-  #   name: Unit Testing ATOM
+    name: Unit Testing ATOM
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   steps:
+    steps:
 
-  #     - name: Clone ATOM repo
-  #       run: cd ~/ && git clone https://github.com/Kazadhum/atom
+      - name: Clone ATOM repo
+        run: cd ~/ && git clone https://github.com/Kazadhum/atom
 
-  #     - name: Install coverage.py
-  #       run: pip install coverage
+      - name: Install coverage.py
+        run: pip install coverage
 
-  #     - name: Run the unit tests and generate report
-  #       run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && coverage run -m unittest -v && coverage xml && ls"
+      - name: Run the unit tests and generate report
+        run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && coverage run -m unittest -v && coverage xml && ls"
 
-  #     - name: Codacy Coverage Reporter
-  #       uses: codacy/codacy-coverage-reporter-action@v1
-  #       with:
-  #         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      - name: Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
-  #         coverage-reports: "~/atom/atom_core/src/atom_core/unit_tests/coverage.xml"
+          coverage-reports: "~/atom/atom_core/src/atom_core/unit_tests/coverage.xml"
