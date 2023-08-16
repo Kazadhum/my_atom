@@ -110,7 +110,7 @@ jobs:
   compose:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
-      timeout: 750.0
+      timeout: 90.0
       components:
         # -
         #   name: "simulation_and_robot"
@@ -206,7 +206,7 @@ jobs:
   file_introspection:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
-      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
+      file: "/home/diogo/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
       
       # Value verification
       introspection_target_columns:
