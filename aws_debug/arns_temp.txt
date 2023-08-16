@@ -1,2 +1,0 @@
-robot_app_arn: arn:aws:robomaker:eu-west-1:629712188062:robot-application/rigel_robomaker_robot_application/1689714131091
-
