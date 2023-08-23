@@ -18,7 +18,6 @@ jobs:
       - name: Install my File Introspection Plugin
         run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
-
       # - name: Build ATOM image using Rigel
       #   run: cd ~/atom/ && export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }} AWS_ECR=${{ secrets.AWS_ECR }} AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }} && rigel run sequence deploy
       #   env:
