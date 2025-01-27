@@ -13,15 +13,15 @@ vars:
 
 providers:
 
-  aws:
-    provider: "rigel.providers.aws.AWSProvider"
-    with:
-      aws_access_key_id: "{{ vars.AWS_ACCESS_KEY_ID }}"
-      aws_secret_access_key: "{{ vars.AWS_SECRET_ACCESS_KEY }}" 
-      region_name: "{{ vars.AWS_REGION_NAME }}"
-      ecr_servers:
-        - "{{ vars.AWS_ECR }}"
-      services: ["ecr", "robomaker"]
+  # aws:
+    # provider: "rigel.providers.aws.AWSProvider"
+    # with:
+      # aws_access_key_id: "{{ vars.AWS_ACCESS_KEY_ID }}"
+      # aws_secret_access_key: "{{ vars.AWS_SECRET_ACCESS_KEY }}" 
+      # region_name: "{{ vars.AWS_REGION_NAME }}"
+      # ecr_servers:
+        # - "{{ vars.AWS_ECR }}"
+      # services: ["ecr", "robomaker"]
 
 application:
 
