@@ -216,95 +216,95 @@ jobs:
 
 
 
-  robomaker:
-    plugin: "rigel.plugins.aws.RoboMakerPlugin"
-    with:
-      iam_role: "{{ vars.AWS_IAM_ROLE }}"
-      output_location: "rigel-robomaker-logs-ireland"
-      simulation_duration: 600
-      
-      robot_application:
-        ecr: "{{ vars.AWS_ECR }}/atom_image:latest"
-        command: ["roslaunch", "t2rgb_bringup", "robotapp_launch.launch", "output_folder:=$ATOM_DATASETS/t2rgb", "overwrite:=true"]
-        
-        stream_ui: True
-
-        environment:
-          - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
-          - "ROS_IP=ROBOMAKER_ROBOT_APP_IP"
+  # robomaker:
+    # plugin: "rigel.plugins.aws.RoboMakerPlugin"
+    # with:
+      # iam_role: "{{ vars.AWS_IAM_ROLE }}"
+      # output_location: "rigel-robomaker-logs-ireland"
+      # simulation_duration: 600
+      # 
+      # robot_application:
+        # ecr: "{{ vars.AWS_ECR }}/atom_image:latest"
+        # command: ["roslaunch", "t2rgb_bringup", "robotapp_launch.launch", "output_folder:=$ATOM_DATASETS/t2rgb", "overwrite:=true"]
+        # 
+        # stream_ui: True
+# 
+        # environment:
+          # - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+          # - "ROS_IP=ROBOMAKER_ROBOT_APP_IP"
           # - "ROS_MASTER_URI=http://localhost:11311"
-          - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+          # - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
           # - "ROS_HOSTNAME=localhost"
-        
-
-
-        ports:
-          - !!python/tuple [9090, 9090]
-        
-        tools:
-          -
-            name: 'terminal'
-            command: "{{ vars.robomaker_tool_terminal_cmd }}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-          
-          -
-            name: 'rviz'
-            command: "{{ vars.robomaker_tool_rviz_cmd}}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-          
-          -
-            name: 'gzclient'
-            command: "{{ vars.robomaker_tool_gazebo_cmd}}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-
-
-      simulation_application:
-        ecr: "{{ vars.AWS_ECR }}/atom_image:latest"
-        command: ["roslaunch", "t2rgb_bringup", "simapp_launch.launch", "motion_sequence_file:=/home/rigeluser/ros_workspace/src/t2rgb/movement_sequences/movement_sequence.json"]
-
-        stream_ui: True
-
-        environment:
-          - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
-          - "ROS_IP=ROBOMAKER_SIM_APP_IP"
-          # - "ROS_MASTER_URI=http://localhost:11311"
-          - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
-          # - "ROS_HOSTNAME=localhost"
-
+        # 
+# 
+# 
         # ports:
-        #   - !!python/tuple [9090, 9090]
-
-        tools:
-          -
-            name: 'terminal'
-            command: "{{ vars.robomaker_tool_terminal_cmd }}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-          
-          -
-            name: 'rviz'
-            command: "{{ vars.robomaker_tool_rviz_cmd}}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-
-          -
-            name: 'gzclient'
-            command: "{{ vars.robomaker_tool_gazebo_cmd}}"
-            stream_output_to_cloud_watch: True
-            stream_ui: True
-
-      
-
-      vpc_config:
-        subnets:
-          - "subnet-0fd55ce2c4695d46f"
-          - "subnet-0dd12d06c4a7e3d90"
-        security_groups:
-          - "sg-0a12d8bb70b2bf1f4"
-        assign_public_ip: True
+          # - !!python/tuple [9090, 9090]
+        # 
+        # tools:
+          # -
+            # name: 'terminal'
+            # command: "{{ vars.robomaker_tool_terminal_cmd }}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+          # 
+          # -
+            # name: 'rviz'
+            # command: "{{ vars.robomaker_tool_rviz_cmd}}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+          # 
+          # -
+            # name: 'gzclient'
+            # command: "{{ vars.robomaker_tool_gazebo_cmd}}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+# 
+# 
+      # simulation_application:
+        # ecr: "{{ vars.AWS_ECR }}/atom_image:latest"
+        # command: ["roslaunch", "t2rgb_bringup", "simapp_launch.launch", "motion_sequence_file:=/home/rigeluser/ros_workspace/src/t2rgb/movement_sequences/movement_sequence.json"]
+# 
+        # stream_ui: True
+# 
+        # environment:
+          # - "GAZEBO_MASTER_URI=http://ROBOMAKER_SIM_APP_IP:11345"
+          # - "ROS_IP=ROBOMAKER_SIM_APP_IP"
+          - "ROS_MASTER_URI=http://localhost:11311"
+          # - "ROS_MASTER_URI=http://ROBOMAKER_ROBOT_APP_IP:11311"
+          - "ROS_HOSTNAME=localhost"
+# 
+        # ports:
+          # - !!python/tuple [9090, 9090]
+# 
+        # tools:
+          # -
+            # name: 'terminal'
+            # command: "{{ vars.robomaker_tool_terminal_cmd }}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+          # 
+          # -
+            # name: 'rviz'
+            # command: "{{ vars.robomaker_tool_rviz_cmd}}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+# 
+          # -
+            # name: 'gzclient'
+            # command: "{{ vars.robomaker_tool_gazebo_cmd}}"
+            # stream_output_to_cloud_watch: True
+            # stream_ui: True
+# 
+      # 
+# 
+      # vpc_config:
+        # subnets:
+          # - "subnet-0fd55ce2c4695d46f"
+          # - "subnet-0dd12d06c4a7e3d90"
+        # security_groups:
+          # - "sg-0a12d8bb70b2bf1f4"
+        # assign_public_ip: True
 
 
 sequences:
