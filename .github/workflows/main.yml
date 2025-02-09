@@ -31,4 +31,4 @@ jobs:
         run: export DISPLAY=:99
 
       - name: Build ATOM image
-        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run sequence deploy
+        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run job test
