@@ -14,3 +14,6 @@ jobs:
 
       - name: Install Rigel and clone ATOM repo
         run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Install my File Introspection Plugin
+        run: pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
