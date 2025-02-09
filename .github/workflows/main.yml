@@ -26,6 +26,9 @@ jobs:
 
       - name: Start Xvfb
         run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-        
+
       - name: Set display variable
         run: export DISPLAY=:99
+
+      - name: Build ATOM image
+        run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run sequence deploy
