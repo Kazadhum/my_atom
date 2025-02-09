@@ -10,4 +10,7 @@ jobs:
 
     steps:
       
-      - uses: actions/checkout@v3 # clone target repo
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
