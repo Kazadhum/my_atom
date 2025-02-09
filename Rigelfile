@@ -11,7 +11,7 @@ vars:
   robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
   robomaker_tool_rviz_cmd: "source /home/rigeluser/robot-entrypoint.sh && rviz"
 
-providers:
+# providers:
 
   # aws:
     # provider: "rigel.providers.aws.AWSProvider"
