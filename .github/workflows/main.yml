@@ -20,3 +20,12 @@ jobs:
 
       - name: Install my File Introspection Plugin
         run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        
+      - name: Set display variable
+        run: export DISPLAY=:99
