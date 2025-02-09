@@ -121,25 +121,25 @@ if __name__ == '__main__':
     dataset = json.load(f)
 
     # Remove partial detections (OpenCV does not support them)
-    collections_to_delete = []
-    number_of_corners = int(dataset['calibration_config']['calibration_pattern']['dimension']['x']) * \
-                        int(dataset['calibration_config']['calibration_pattern']['dimension']['y'])
-    for collection_key, collection in dataset['collections'].items():
-        for sensor_key, sensor in dataset['sensors'].items():
-            if sensor_key not in [left_camera, right_camera]:
-                continue
+    # collections_to_delete = []
+    # number_of_corners = int(dataset['calibration_config']['calibration_pattern']['dimension']['x']) * \
+    #                     int(dataset['calibration_config']['calibration_pattern']['dimension']['y'])
+    # for collection_key, collection in dataset['collections'].items():
+    #     for sensor_key, sensor in dataset['sensors'].items():
+    #         if sensor_key not in [left_camera, right_camera]:
+    #             continue
 
-            if sensor['msg_type'] == 'Image' and collection['labels'][sensor_key]['detected']:
-                if not len(collection['labels'][sensor_key]['idxs']) == number_of_corners:
-                    print(
-                            Fore.RED + 'Partial detection removed:' + Style.RESET_ALL + ' label from collection ' +
-                            collection_key + ', sensor ' + sensor_key)
+    #         if sensor['msg_type'] == 'Image' and collection['labels'][sensor_key]['detected']:
+    #             if not len(collection['labels'][sensor_key]['idxs']) == number_of_corners:
+    #                 print(
+    #                         Fore.RED + 'Partial detection removed:' + Style.RESET_ALL + ' label from collection ' +
+    #                         collection_key + ', sensor ' + sensor_key)
 
-                    collections_to_delete.append(collection_key)
-                    break
+    #                 collections_to_delete.append(collection_key)
+    #                 break
 
-    for collection_key in collections_to_delete:
-        del dataset['collections'][collection_key]
+    # for collection_key in collections_to_delete:
+    #     del dataset['collections'][collection_key]
 
     # remove collections which do not have a pattern detection for both cameras
     collections_to_delete = []

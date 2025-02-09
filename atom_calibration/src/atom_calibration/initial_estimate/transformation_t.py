@@ -84,7 +84,7 @@ class TransformationT():
         return rodrigues
 
     def rodriguesToMatrix(self, r):
-        rod = np.array(r, dtype=np.float)
+        rod = np.array(r, dtype=float)
         matrix = cv2.Rodrigues(rod)
         return matrix[0]
 
