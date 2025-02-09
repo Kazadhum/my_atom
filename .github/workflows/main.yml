@@ -16,7 +16,7 @@ jobs:
         run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
 
       - name: Fix OpenSSL
-      run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
 
       - name: Install my File Introspection Plugin
         run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
