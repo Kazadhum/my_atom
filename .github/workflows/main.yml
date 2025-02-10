@@ -32,5 +32,5 @@ jobs:
 
       - name: Test RRBot Calibration
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose && ls
-          env:
-            DISPLAY: :99
+        env:
+          DISPLAY: :99
