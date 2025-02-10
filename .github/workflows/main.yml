@@ -3,8 +3,8 @@ name: CI
 on: workflow_dispatch
   
 jobs:
-  run_atom_with_rigel:
-    name: Testing ATOM with Rigel
+  test_calibration_evaluation:
+    name: Testing Calibration and Evaluation
 
     runs-on: ubuntu-20.04
 
@@ -30,7 +30,7 @@ jobs:
       # - name: Set display variable
       #   run: export DISPLAY=:99
 
-      - name: Test RRBot Calibration
+      - name: Test rrbot Calibration and Evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose && ls
         env:
           DISPLAY: :99
