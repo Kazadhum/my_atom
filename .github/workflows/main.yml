@@ -21,14 +21,16 @@ jobs:
       - name: Install my File Introspection Plugin
         run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
+      # - name: Install Xvfb
+      #   run: sudo apt-get install -y xvfb
 
-      - name: Start Xvfb
-        run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+      # - name: Start Xvfb
+      #   run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
-      - name: Set display variable
-        run: export DISPLAY=:99
+      # - name: Set display variable
+      #   run: export DISPLAY=:99
 
       - name: Test RRBot Calibration
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose && ls
+        use: GabrielBB/xvfb-action@v1
+        with:
+          run: rigel run job compose
