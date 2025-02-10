@@ -154,7 +154,7 @@ jobs:
             artifacts: 
               - "/home/rigeluser/single_rgb_results.csv"
             
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json --camera rgb_world --pattern hand_pattern -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
               DISPLAY: ":99"
@@ -338,6 +338,12 @@ sequences:
     stages:
       -
         jobs: ["dockerfile", "build"]
+  
+  test_calibrations:
+    stages:
+      -
+        jobs: ["calibrate_rrbot", "calibrate_riwmpbot"]
+  
   test: 
     stages:
       -

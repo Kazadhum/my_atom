@@ -30,7 +30,13 @@ jobs:
       # - name: Set display variable
       #   run: export DISPLAY=:99
 
-      - name: Test rrbot Calibration and Evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose && ls
+      - name: Test rrbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job calibrate_rrbot && ls
         env:
           DISPLAY: :99
+
+      - name: Test riwmpbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job calibrate_riwmpbot && ls
+        env:
+          DISPLAY: :99
+
