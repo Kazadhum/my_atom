@@ -36,5 +36,5 @@ jobs:
       - name: Test RRBot Calibration
         uses: coactions/setup-xvfb@v1
         with:
-          working_directory:
+          working_directory: ./
           run: rigel run job compose
