@@ -31,4 +31,4 @@ jobs:
         run: export DISPLAY=:99
 
       - name: Test RRBot Calibration
-        run: cd ~/atom/ && rigel run job compose && ls
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose && ls
