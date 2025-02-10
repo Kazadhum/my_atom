@@ -33,4 +33,4 @@ jobs:
       - name: Test RRBot Calibration
         uses: coactions/setup-xvfb@v1
         with:
-          run: cd ~ && ls && cd ~/atom/ && export DISPLAY=:99 && rigel run job compose
+          run: cd ~/atom/ && export DISPLAY=:99 && rigel run job compose
