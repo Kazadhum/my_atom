@@ -6,7 +6,7 @@ jobs:
   run_atom_with_rigel:
     name: Testing ATOM with Rigel
 
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
 
     steps:
       
