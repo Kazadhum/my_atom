@@ -30,11 +30,5 @@ jobs:
       # - name: Set display variable
       #   run: export DISPLAY=:99
 
-      - name: Get Path (DEBUG)
-        run: pwd
-
       - name: Test RRBot Calibration
-        uses: coactions/setup-xvfb@v1
-        with:
-          working_directory: ./
-          run: rigel run job compose
+        run: cd ~/atom && rigel run job compose && ls
