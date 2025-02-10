@@ -133,7 +133,7 @@ jobs:
 
             # command: ["/bin/bash", "-c", "xvfb-run -e /dev/stdout rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && cd $HOME/ && ls"]
             
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/rrbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rrbot/train/dataset.json --sensor_source rgb_right --sensor_target rgb_left -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls && exit 0"]
+            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/rrbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rrbot/train/dataset.json --sensor_source rgb_right --sensor_target rgb_left -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
             envs:
               DISPLAY: ":99"
 
