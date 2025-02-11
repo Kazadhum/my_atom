@@ -235,7 +235,7 @@ jobs:
   file_introspection:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
-      file: "/home/diogo/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
+      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
       
       # Value verification
       introspection_target_columns:
