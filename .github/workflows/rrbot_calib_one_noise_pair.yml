@@ -1,4 +1,4 @@
-name: CI
+name: rrbot_calib_one_noise_pair
 
 on: workflow_dispatch
   
