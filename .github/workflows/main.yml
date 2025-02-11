@@ -57,3 +57,9 @@ jobs:
       - name: Run the unit tests and generate report
         run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && coverage run -m unittest -v && coverage xml && ls"
 
+      - name: Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
+          coverage-reports: "~/atom/atom_core/src/atom_core/unit_tests/coverage.xml"
