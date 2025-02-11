@@ -240,7 +240,7 @@ jobs:
       # Value verification
       introspection_target_columns:
         # - "RMS (pix)"
-        - "all [px]": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 1} #Check for strings in result as well as numeric as well as a string's absence
+        - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 1} #Check for strings in result as well as numeric as well as a string's absence
 
   introspection_riwmpbot:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
@@ -250,7 +250,7 @@ jobs:
       # Value verification
       introspection_target_columns:
         # - "RMS (pix)"
-        - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
+        - "all [px]": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 1} #Check for strings in result as well as numeric as well as a string's absence
 
 
   # robomaker:
