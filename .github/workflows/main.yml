@@ -31,19 +31,15 @@ jobs:
       #   run: export DISPLAY=:99
 
       - name: Test rrbot calibration and evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job calibrate_rrbot && ls
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
         env:
           DISPLAY: :99
 
       - name: Test riwmpbot calibration and evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run job calibrate_riwmpbot && ls
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
         env:
           DISPLAY: :99
 
-      - name: Test rrbot calibration and evaluation and file introspection
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test && ls
-        env:
-          DISPLAY: :99
     
   unit_tests:
     name: Unit Testing ATOM

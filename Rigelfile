@@ -232,7 +232,7 @@ jobs:
         # timeout: 30.0
 
   
-  file_introspection:
+  introspection_rrbot:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
       file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/rgb_to_rgb_results.csv"
@@ -241,8 +241,16 @@ jobs:
       introspection_target_columns:
         # - "RMS (pix)"
         - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
-        # - "X err (pix)": {validation_min: 0, validation_max: 3, use_latest_row: True, acceptable_max: 2}  
 
+  introspection_riwmpbot:
+    plugin: "file_intro_plugin.FileIntrospectionPlugin"
+    with:
+      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/single_rgb_results.csv"
+      
+      # Value verification
+      introspection_target_columns:
+        # - "RMS (pix)"
+        - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
 
 
   # robomaker:
@@ -342,11 +350,16 @@ sequences:
       -
         jobs: ["dockerfile", "build"]
   
-  test_calibrations:
+  test_rrbot_calibration:
     stages:
       -
-        jobs: ["calibrate_rrbot", "calibrate_riwmpbot"]
+        jobs: ["calibrate_rrbot", "introspection_rrbot"]
   
+  test_riwmpbot_calibration:
+    stages:
+      -
+        jobs: ["calibrate_riwmpbot", "introspect_riwmpbot"]
+
   test: 
     stages:
       -
