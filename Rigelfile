@@ -358,7 +358,7 @@ sequences:
   test_riwmpbot_calibration:
     stages:
       -
-        jobs: ["calibrate_riwmpbot", "introspect_riwmpbot"]
+        jobs: ["calibrate_riwmpbot", "introspection_riwmpbot"]
 
   test: 
     stages:
