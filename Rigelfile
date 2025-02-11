@@ -133,7 +133,7 @@ jobs:
 
             # command: ["/bin/bash", "-c", "xvfb-run -e /dev/stdout rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && cd $HOME/ && ls"]
             
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/rrbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rrbot/train/dataset.json --sensor_source rgb_right --sensor_target rgb_left -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && xvfb-run -a rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/rrbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rrbot/train/dataset.json --sensor_source rgb_right --sensor_target rgb_left -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
               DISPLAY: ":99"
@@ -157,7 +157,7 @@ jobs:
             
             # command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
-            command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -v -nig 0 0 -ctgt -jbn shoulder_pan_joint shoulder_lift_joint elbow_joint wrist_1_joint wrist_2_joint wrist_3_joint -jbp origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw -jbv 0.03 -0.02 0.03 -0.1 0.04 -0.09 && xvfb-run rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -v -nig 0 0 -ctgt -jbn shoulder_pan_joint shoulder_lift_joint elbow_joint wrist_1_joint wrist_2_joint wrist_3_joint -jbp origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw -jbv 0.03 -0.02 0.03 -0.1 0.04 -0.09 && xvfb-run -a rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
               DISPLAY: ":99"
@@ -360,16 +360,29 @@ sequences:
       -
         jobs: ["calibrate_riwmpbot", "introspection_riwmpbot"]
 
-  test: 
+  test_rrbot_calibration_two_noise_pairs: 
     stages:
       -
-        jobs: ["calibrate_rrbot", "file_introspection"]
+        matrix:
+          trans_noise: [0]
+          rot_noise: [0, 0.5]
+          # trans_noise: [0]
+          # rot_noise: [0]
 
-        # matrix:
-        #   trans_noise: [0, 0.5]
-        #   rot_noise: [0, 0.5]
-        #   # trans_noise: [0]
-        #   # rot_noise: [0]
+        parallel:
+          -
+            jobs: ["calibrate_rrbot", "introspection_rrbot"]
 
-        # parallel:
-        # -
+  test_rrbot_calibration_four_noise_pairs: 
+    stages:
+      -
+        matrix:
+          trans_noise: [0, 0.5]
+          rot_noise: [0, 0.5]
+          # trans_noise: [0]
+          # rot_noise: [0]
+
+        parallel:
+          -
+            jobs: ["calibrate_rrbot", "introspection_rrbot"]
+
