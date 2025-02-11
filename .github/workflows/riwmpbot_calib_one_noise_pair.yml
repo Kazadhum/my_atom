@@ -21,36 +21,7 @@ jobs:
       - name: Install my File Introspection Plugin
         run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
 
-      - name: Test rrbot calibration and evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
-        env:
-          DISPLAY: :99
-
       - name: Test riwmpbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
         env:
           DISPLAY: :99
-
-    
-  unit_tests:
-    name: Unit Testing ATOM
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Clone ATOM repo
-        run: cd ~/ && git clone https://github.com/Kazadhum/atom
-
-      - name: Install coverage.py
-        run: pip install coverage
-
-      - name: Run the unit tests and generate report
-        run: /bin/bash -c "export PYTHONPATH=${PYTHONPATH}:~/atom/atom_core/src/atom_core && cd ~/atom/atom_core/src/atom_core/unit_tests && coverage run -m unittest -v && coverage xml && ls"
-
-      - name: Codacy Coverage Reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-
-          coverage-reports: "~/atom/atom_core/src/atom_core/unit_tests/coverage.xml"
