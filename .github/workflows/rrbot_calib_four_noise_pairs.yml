@@ -1,4 +1,4 @@
-name: rrbot_calib_one_noise_pair
+name: rrbot_calib_four_noise_pairs
 
 on: workflow_dispatch
   
