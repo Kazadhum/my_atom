@@ -27,7 +27,7 @@ jobs:
           DISPLAY: :99
 
       - name: Test riwmpbot calibration and evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_all && ls
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
         env:
           DISPLAY: :99
 

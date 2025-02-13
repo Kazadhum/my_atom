@@ -350,26 +350,12 @@ sequences:
       -
         jobs: ["dockerfile", "build"]
   
-  # Main Job Sequence
-  test_all:
+  test_rrbot_calibration:
     stages:
       -
         matrix:
           trans_noise: [0, 0.01, 0.05, 0.1, 0.5]
           rot_noise: [0, 0.01, 0.05, 0.1, 0.5]
-        
-        parallel:
-          -
-            job: ["calibrate_rrbot", "introspection_rrbot", "calibrate_riwmpbot", "introspection_riwmpbot"]
-
-
-
-  test_rrbot_calibration:
-    stages:
-      -
-        matrix:
-          trans_noise: [0]
-          rot_noise: [0]
       
         parallel:
           -  
