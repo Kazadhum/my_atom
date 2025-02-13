@@ -31,6 +31,10 @@ jobs:
         env:
           DISPLAY: :99
 
+      - name: Test rlbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rlbot_calibration && ls
+        env:
+          DISPLAY: :99
     
   unit_tests:
     name: Unit Testing ATOM

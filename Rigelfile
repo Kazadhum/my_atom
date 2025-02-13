@@ -128,11 +128,6 @@ jobs:
             artifacts: 
               - "/home/rigeluser/rgb_to_rgb_results.csv"
 
-            # Running both calibration and evaluation in a bash wrap 
-            # command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/old_dataset/dataset.json -nig {{ data.trans_noise }} {{ data.rot_noise }} -v && xvfb-run rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/old_dataset/atom_calibration.json -test_json $ATOM_DATASETS/old_dataset/dataset.json --sensor_source right_camera --sensor_target left_camera -sfr /home/rigeluser/ && cd $HOME/ && ls"]
-
-            # command: ["/bin/bash", "-c", "xvfb-run -e /dev/stdout rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig 0 0 -v && cd $HOME/ && ls"]
-            
             command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rrbot/train/dataset.json -nig {{ data.trans_noise }} {{ data.rot_noise }} -v && xvfb-run -a rosrun atom_evaluation rgb_to_rgb_evaluation -train_json $ATOM_DATASETS/rrbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rrbot/train/dataset.json --sensor_source rgb_right --sensor_target rgb_left -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
@@ -154,9 +149,7 @@ jobs:
 
             artifacts: 
               - "/home/rigeluser/single_rgb_results.csv"
-            
-            # command: ["/bin/bash", "-c", "xvfb-run rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -nig 0 0 -v && xvfb-run rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
-            
+
             command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -v -nig {{ data.trans_noise }} {{ data.rot_noise }} -ctgt -jbn shoulder_pan_joint shoulder_lift_joint elbow_joint wrist_1_joint wrist_2_joint wrist_3_joint -jbp origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw -jbv 0.03 -0.02 0.03 -0.1 0.04 -0.09 && xvfb-run -a rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
@@ -167,6 +160,38 @@ jobs:
             
             introspection: False
 
+  calibrate_rlbot:
+    plugin: "rigel.plugins.core.ComposePlugin"
+    with:
+      timeout: 300.0
+      components:
+        # -
+        #   name: "simulation_and_robot"
+        #   image: "dvieira2001/atom:latest"
+        #   command: ["roslaunch", "t2rgb_bringup", "t2rgb.launch"]
+        #   envs:
+        #     DISPLAY: "{{ vars.DISPLAY }}"
+          
+          # volumes:
+          #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+        -
+            name: "calibration_evaluation"
+            image: "dvieira2001/atom:latest"
+
+            artifacts: 
+              - "/home/rigeluser/rgb_to_rgb_results.csv"
+            
+            # command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rlbot/train/dataset.json -nig 0 0 -v && xvfb-run -a rosrun atom_evaluation lidar_to_rgb_evaluation -train_json $ATOM_DATASETS/rlbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rlbot/train/dataset.json -h -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            
+            command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rlbot/train/dataset.json -nig {{ data.trans_noise }} {{ data.rot_noise }} -v && xvfb-run -a rosrun atom_evaluation lidar_to_rgb_evaluation -train_json $ATOM_DATASETS/rlbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rlbot/train/dataset.json -rs lidar_right -cs rgb_left -pn pattern_1 -sfr -sfrn /home/rigeluser/lidar_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            
+            envs:
+              DISPLAY: ":99"
+
+            volumes:
+              - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
+            
+            introspection: False
 
   compose_rigelfile_test:
     plugin: "rigel.plugins.core.ComposePlugin"
@@ -252,6 +277,15 @@ jobs:
         # - "RMS (pix)"
         - "all [px]": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 1} #Check for strings in result as well as numeric as well as a string's absence
 
+  introspection_rlbot:
+    plugin: "file_intro_plugin.FileIntrospectionPlugin"
+    with:
+      file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/lidar_to_rgb_results.csv"
+      
+      # Value verification
+      introspection_target_columns:
+        # - "RMS (pix)"
+        - "RMS (pix)": {validation_min: 0, validation_max: 5, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 3} #Check for strings in result as well as numeric as well as a string's absence
 
   # robomaker:
     # plugin: "rigel.plugins.aws.RoboMakerPlugin"
@@ -365,13 +399,24 @@ sequences:
     stages:
       -
         matrix:
-          trans_noise: [0]
-          rot_noise: [0]
+          trans_noise: [0, 0.5]
+          rot_noise: [0, 0.5]
 
         parallel:
           -
             jobs: ["calibrate_riwmpbot", "introspection_riwmpbot"]
+  
+  test_rlbot_calibration:
+    stages:
+      -
+        matrix:
+          trans_noise: [0, 0.5]
+          rot_noise: [0, 0.5]
 
+        parallel:
+          -
+            jobs: ["calibrate_rlbot", "introspection_rlbot"]
+ 
   test_rrbot_calibration_two_noise_pairs: 
     stages:
       -
