@@ -179,9 +179,7 @@ jobs:
             image: "dvieira2001/atom:latest"
 
             artifacts: 
-              - "/home/rigeluser/rgb_to_rgb_results.csv"
-            
-            # command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rlbot/train/dataset.json -nig 0 0 -v && xvfb-run -a rosrun atom_evaluation lidar_to_rgb_evaluation -train_json $ATOM_DATASETS/rlbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rlbot/train/dataset.json -h -sfr -sfrn /home/rigeluser/rgb_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
+              - "/home/rigeluser/lidar_to_rgb_results.csv"
             
             command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/rlbot/train/dataset.json -nig {{ data.trans_noise }} {{ data.rot_noise }} -v && xvfb-run -a rosrun atom_evaluation lidar_to_rgb_evaluation -train_json $ATOM_DATASETS/rlbot/train/atom_calibration.json -test_json $ATOM_DATASETS/rlbot/train/dataset.json -rs lidar_right -cs rgb_left -pn pattern_1 -sfr -sfrn /home/rigeluser/lidar_to_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
