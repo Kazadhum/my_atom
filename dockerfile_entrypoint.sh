@@ -8,10 +8,8 @@ source ./devel/setup.bash
 if [[ -f "/usr/share/$GAZEBO_VERSION/setup.sh" ]]; then source /usr/share/$GAZEBO_VERSION/setup.sh; fi
 export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH/usr/share/gazebo-11:
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH/usr/share/gazebo-11/meshes:
-export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/rigeluser/ros_workspace/src/t2rgb/t2rgb_description/models:
 export WORKSPACE_INSTALL="home/rigeluser/ros_workspace/devel"
-export ROS_BAGS="$HOME/ros_workspace/src/t2rgb/bagfiles"
-export ATOM_DATASETS="$HOME/ros_workspace/src/t2rgb/datasets"
+export ATOM_DATASETS="$HOME/ros_workspace/src/atom/ci_datasets/"
 source $WORKSPACE_INSTALL/setup.bash
 printenv
 

@@ -78,11 +78,10 @@ RUN pip3 install urdf-parser-py
 RUN pip3 install SQLAlchemy
 RUN pip3 install open3d
 RUN pip3 install pytictoc
-RUN pip3 install numpy==1.20.3
+RUN pip3 install numpy==1.24.4
 RUN mkdir -p home/rigeluser/ros_workspace/src
 RUN cd home/rigeluser/ros_workspace/src
 RUN git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz
-RUN git clone https://github.com/Kazadhum/t2rgb home/rigeluser/ros_workspace/src/t2rgb
 
 
 # Create default user 'rigeluser'.
@@ -110,12 +109,13 @@ COPY . /home/rigeluser/ros_workspace/src/atom
 COPY dockerfile_entrypoint.sh /home/rigeluser/robot-entrypoint.sh
 
 # Compile ROS workspace.
-# RUN /bin/bash -c "source /opt/ros/noetic/setup.bash \ 
-#     && cd /home/rigeluser/ros_workspace \
-#     && sudo rosdep fix-permissions \
-#     && rosdep update \
-#     && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y \
-#     && catkin_make "
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash \ 
+    && cd /home/rigeluser/ros_workspace \
+    
+    && sudo rosdep fix-permissions \
+    && rosdep update \
+    && rosdep install --rosdistro noetic --from-paths src --ignore-src -r -y \
+    && catkin_make "
     
 
 # Give permissions to user
