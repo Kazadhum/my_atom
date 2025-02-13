@@ -79,6 +79,8 @@ RUN pip3 install SQLAlchemy
 RUN pip3 install open3d
 RUN pip3 install pytictoc
 RUN pip3 install numpy==1.24.4
+RUN pip3 install transformations
+RUN pip3 install scikit-image
 RUN mkdir -p home/rigeluser/ros_workspace/src
 RUN cd home/rigeluser/ros_workspace/src
 RUN git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz
