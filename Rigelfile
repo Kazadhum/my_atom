@@ -429,6 +429,21 @@ sequences:
           -
             jobs: ["calibrate_rlbot", "introspection_rlbot"]
  
+  
+  # SEQUENCES FOR PARTIAL TESTING
+  
+  # RRBOT
+  test_rrbot_calibration_one_noise_pair:
+    stages:
+      -
+        matrix:
+          trans_noise: [0]
+          rot_noise: [0]
+
+        parallel:
+          -
+            jobs: ["calibrate_rrbot", "introspection_rrbot"]
+
   test_rrbot_calibration_two_noise_pairs: 
     stages:
       -

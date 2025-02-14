@@ -32,18 +32,17 @@ jobs:
 
       - name: Test rrbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
-        # env:
-        #   DISPLAY: :99
+
 
       - name: Test riwmpbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
-        # env:
-          # DISPLAY: :99
+
 
       - name: Test rlbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rlbot_calibration && ls
-        # env:
-          # DISPLAY: :99
+
+
+
 
   unit_tests:
     name: Unit Testing ATOM
@@ -67,3 +66,93 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
           coverage-reports: "~/atom/atom_core/src/atom_core/unit_tests/coverage.xml"
+
+
+
+  # JOBS FOR TESTING EXECUTION TIME
+
+  test_calibration_evaluation_rrbot_one_noise_pair:
+    name: Testing Calibration and Evaluation (RRBot Only, 1 noise pair)
+    
+    needs: test_calibration_evaluation_complete # Only run after the complete test pipeline to ensure the container image is build and pushed
+
+    runs-on: ubuntu-20.04
+
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DISPLAY: :99
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Fix OpenSSL
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+
+      - name: Install my File Introspection Plugin
+        run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Test rrbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
+        # env:
+        #   DISPLAY: :99
+
+  test_calibration_evaluation_rrbot_two_noise_pairs:
+    name: Testing Calibration and Evaluation (RRBot Only, 2 noise pairs)
+    
+    needs: test_calibration_evaluation_complete # Only run after the complete test pipeline to ensure the container image is build and pushed
+
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DISPLAY: :99
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Fix OpenSSL
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+
+      - name: Install my File Introspection Plugin
+        run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Test rrbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration_two_noise_pairs && ls
+
+  test_calibration_evaluation_rrbot_four_noise_pairs:
+    name: Testing Calibration and Evaluation (RRBot Only, 4 noise pairs)
+    
+    needs: test_calibration_evaluation_complete # Only run after the complete test pipeline to ensure the container image is build and pushed
+
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DISPLAY: :99
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Fix OpenSSL
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+
+      - name: Install my File Introspection Plugin
+        run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Test rrbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration_four_noise_pairs && ls
