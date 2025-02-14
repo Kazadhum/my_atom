@@ -12,9 +12,9 @@ export WORKSPACE_INSTALL="home/rigeluser/ros_workspace/devel"
 export ATOM_DATASETS="$HOME/ros_workspace/src/atom/ci_datasets"
 source $WORKSPACE_INSTALL/setup.bash
 cd home/rigeluser/ros_workspace/src/atom/atom_examples
-chmod 777 -R ./
+sudo chmod 777 -R ./
 cd home/rigeluser/ros_workspace/src/atom/ci_datasets
-chmod 777 -R ./
+sudo chmod 777 -R ./
 printenv
 
 exec "${@:1}"
