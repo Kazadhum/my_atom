@@ -3,6 +3,7 @@ name: ci
 on: workflow_dispatch
   
 jobs:
+
   test_calibration_evaluation:
     name: Testing Calibration and Evaluation
 
@@ -20,6 +21,9 @@ jobs:
 
       - name: Install my File Introspection Plugin
         run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Build and Push ATOM Container Image
+        run: cd ~/atom && rigel run sequence deploy && ls
 
       - name: Test rrbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
