@@ -137,7 +137,7 @@ jobs:
           #   - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
         -
             name: "calibration_evaluation"
-            image: "atom:latest"
+            image: "dvieira2001/atom:latest"
 
             artifacts: 
               - "/home/rigeluser/rgb_to_rgb_results.csv"
