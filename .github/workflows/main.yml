@@ -5,11 +5,12 @@ on: workflow_dispatch
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DISPLAY: :99
 
 jobs:
 
-  test_calibration_evaluation:
-    name: Testing Calibration and Evaluation
+  test_calibration_evaluation_complete:
+    name: Testing Calibration and Evaluation (Complete)
 
     runs-on: ubuntu-20.04
 
@@ -31,19 +32,19 @@ jobs:
 
       - name: Test rrbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
-        env:
-          DISPLAY: :99
+        # env:
+        #   DISPLAY: :99
 
       - name: Test riwmpbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
-        env:
-          DISPLAY: :99
+        # env:
+          # DISPLAY: :99
 
       - name: Test rlbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rlbot_calibration && ls
-        env:
-          DISPLAY: :99
-    
+        # env:
+          # DISPLAY: :99
+
   unit_tests:
     name: Unit Testing ATOM
 
