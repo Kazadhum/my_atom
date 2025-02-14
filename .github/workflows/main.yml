@@ -1,7 +1,11 @@
 name: ci
 
 on: workflow_dispatch
-  
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
 
   test_calibration_evaluation:
@@ -24,10 +28,6 @@ jobs:
 
       - name: Build and Push ATOM Container Image
         run: cd ~/atom && rigel run sequence deploy && ls
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DISPLAY: :99
 
       - name: Test rrbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
