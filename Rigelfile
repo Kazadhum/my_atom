@@ -5,14 +5,22 @@
 
 vars:
 
+  
   distro: "noetic"
   username: "robomaker"
   robomaker_tool_gazebo_cmd: "source /home/rigeluser/robot-entrypoint.sh && gzclient"
   robomaker_tool_terminal_cmd: "source /home/rigeluser/robot-entrypoint.sh && xfce4-terminal"
   robomaker_tool_rviz_cmd: "source /home/rigeluser/robot-entrypoint.sh && rviz"
+  docker_server: "" # If empty this leads to the dockerhub server by default
 
-# providers:
-
+providers:
+  dockerhub:
+    provider: "rigel.providers.core.ContainerRegistryProvider"
+    with:
+      server: "{{ vars.docker_server }}"
+      username: "{{ vars.DOCKER_USERNAME }}"
+      password: "{{ vars.DOCKER_PASSWORD }}"
+  
   # aws:
     # provider: "rigel.providers.aws.AWSProvider"
     # with:
