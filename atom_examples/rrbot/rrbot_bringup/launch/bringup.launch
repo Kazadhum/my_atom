@@ -11,6 +11,6 @@
 <include file="$(find rrbot_bringup)/launch/visualize.launch">
 </include>
 
-<node name="interactive_pattern" pkg="atom_worlds" type="interactive_pattern" output="screen" />
+<!-- <node name="interactive_pattern" pkg="atom_worlds" type="interactive_pattern" output="screen" /> -->
 
 </launch>

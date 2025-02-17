@@ -1,0 +1,68 @@
+<launch>
+
+<!-- Parameters-->
+<arg name="output_folder"/>
+<!-- folder of the output dataset -->
+<arg name="overwrite" default="false"/>
+<!-- overwrite output folder if it exists -->
+<arg name="marker_size" default="0.5"/>
+<arg name="config_file" default="$(find rrbot_calibration)/calibration/config.yml"/>
+<arg name="rviz_file" default="$(find rrbot_calibration)/rviz/collect_data.rviz"/>
+<arg name="description_file" default="$(find rrbot_calibration)/urdf/initial_estimate.urdf.xacro"/>
+<arg name="ssl" default="lambda sensor_name: False"/>
+<arg name="movement_sequence_file" default="$(find rrbot_bringup)/movement_sequences/movement_sequence.json"/>
+
+<!--Load robot xacro into robot_description ros parameter.-->
+<include file="$(find rrbot_description)/launch/upload.launch">
+</include>
+
+<!--Load robot xacro into robot_description ros parameter.-->
+<include file="$(find rrbot_gazebo)/launch/spawn.launch">
+</include>
+
+<include file="$(find rrbot_bringup)/launch/visualize.launch">
+</include>
+
+<!-- <node name="interactive_pattern" pkg="atom_worlds" type="interactive_pattern" output="screen" /> -->
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!-- Start Gazebo simulation -->
+<include file="$(find rrbot_gazebo)/launch/gazebo.launch"/>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!-- Start data collector node -->
+<group if="$(arg overwrite)">
+    <node name="collect_data" pkg="atom_calibration" type="collect_data"
+            args="-s $(arg marker_size) -o $(arg output_folder) -c $(arg config_file) -ssl '$(arg ssl)' --overwrite" required="true"
+            output="screen"/>
+</group>
+
+<group unless="$(arg overwrite)">
+    <node name="collect_data" pkg="atom_calibration" type="collect_data"
+            args="-s $(arg marker_size) -o $(arg output_folder) -c $(arg config_file) -ssl '$(arg ssl)'" required="true"
+            output="screen"/>
+</group>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!-- Labeler nodes -->
+
+<!-- Sensor rgb_left rgb_labeler -->
+<node name="rgb_left_labeler" pkg="atom_calibration" type="rgb_labeler"
+    args="-cfg $(arg config_file) -sn rgb_left"
+    required="true"
+    output="screen"/>
+
+<!-- Sensor rgb_right rgb_labeler -->
+<node name="rgb_right_labeler" pkg="atom_calibration" type="rgb_labeler"
+    args="-cfg $(arg config_file) -sn rgb_right"
+    required="true"
+    output="screen"/>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!-- Start auto pattern movement and data collection -->
+<node name="pattern_motion" pkg="rrbot_bringup" type="pattern_motion"
+    args="-msf $(arg movement_sequence_file)"
+    required="true"
+    output="screen"/>
+
+</launch>
