@@ -95,9 +95,8 @@ jobs:
         - "cd home/rigeluser/ros_workspace/src"
         - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
         - "cd home/rigeluser"
-        - "mkdir -p bagfiles/rrbot"
-        - "cd bagfiles/rrbot"
-        - "gdown --id 1Noo3eZh72m-xRobYZywdo1wtqg7e4wGa" # Get RRBot test bag
+        - "mkdir -p home/rigeluser/bagfiles/rrbot"
+        - "cd home/rigeluser/bagfiles/rrbot && gdown --id 1Noo3eZh72m-xRobYZywdo1wtqg7e4wGa" # Get RRBot test bag
 
 
       # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'" 
