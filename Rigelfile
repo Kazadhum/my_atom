@@ -220,14 +220,12 @@ jobs:
           name: "data_collection"
           image: "dvieira2001/atom:latest"
 
-          command: ["/bin/bash", "-c", "sleep && ls"]
+          artifacts:
+            - "/home/rigeluser/ros_workspace/src/atom/ci_datasets/rrbot/test_dataset/dataset.json"
 
-          envs:
-            DISPLAY: "{{ vars.DISPLAY }}"
+          command: ["/bin/bash", "-c", "xvfb-run -a roslaunch rrbot_bringup test_collect.launch output_folder:=$ATOM_DATASETS/rrbot/test_dataset overwrite:=true movement_sequence_file:=/home/rigeluser/ros_workspace/src/atom/atom_examples/rrbot/movement_sequences/movement_sequence.json && ls"]
           volumes:
             - !!python/tuple ["/tmp/.X11-unix", "/tmp/.X11-unix"]
-          devices:
-            - "/dev/dri:/dev/dri"
 
         # -
         #   name: "simapp"

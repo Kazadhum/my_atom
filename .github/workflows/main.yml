@@ -9,8 +9,8 @@ env:
 
 jobs:
 
-  test_calibration_evaluation_complete:
-    name: Testing Calibration and Evaluation (Complete)
+  build_and_push_container_image:
+    name: Build the Container Image and Push to Registry
 
     runs-on: ubuntu-20.04
 
@@ -30,6 +30,27 @@ jobs:
       - name: Build and Push ATOM Container Image
         run: cd ~/atom && rigel run sequence deploy && ls
 
+
+  test_calibration_evaluation_complete:
+    name: Testing Calibration and Evaluation (Complete)
+
+    needs: build_and_push_container_image
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Fix OpenSSL
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+
+      - name: Install my File Introspection Plugin
+        run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
       - name: Test rrbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
 
@@ -41,8 +62,27 @@ jobs:
       - name: Test rlbot calibration and evaluation
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rlbot_calibration && ls
 
+  test_data_collection:
 
+    runs-on: ubuntu-20.04
 
+    needs: build_and_push_container_image
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install Rigel and clone ATOM repo
+        run: sudo apt update && cd ~/ && pip install git+https://github.com/rigel-ros/rigel@develop && cd ~/ && git clone --branch updated_atom https://github.com/Kazadhum/atom
+
+      - name: Fix OpenSSL
+        run: sudo apt-get install -y python3-pip && sudo dpkg -r --force-depends python3-openssl python3-cryptography && sudo pip3 install pyopenssl cryptography && sudo apt-get install -y --fix-missing python3-openssl python3-cryptography
+
+      - name: Install my File Introspection Plugin
+        run: sudo apt install python3-pip && pip install git+https://github.com/Kazadhum/file_intro_plugin@flow
+
+      - name: Build and Push ATOM Container Image
+        run: cd ~/atom && rigel run job collect_data && ls
 
   unit_tests:
     name: Unit Testing ATOM
