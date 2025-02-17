@@ -87,12 +87,17 @@ jobs:
         - "pip3 install numpy==1.24.4"
         - "pip3 install transformations" # New
         - "pip3 install scikit-image"
+        - "pip3 install gdown" # For downloading bag file
 
 
         # Podes também criar um ficheiro .rosinstall com os gits publicos que precisas <--- recomendo isto
         - "mkdir -p home/rigeluser/ros_workspace/src"
         - "cd home/rigeluser/ros_workspace/src"
         - "git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz"
+        - "cd home/rigeluser"
+        - "mkdir -p bagfiles/rrbot"
+        - "cd bagfiles/rrbot"
+        - "gdown --id 1Noo3eZh72m-xRobYZywdo1wtqg7e4wGa" # Get RRBot test bag
 
 
       # command: "bash -c 'source ~/ros_workspace/devel/setup.bash'" 
@@ -103,6 +108,7 @@ jobs:
         # - "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/rigeluser/ros_workspace/src/t2rgb/t2rgb_description/models:"
         - export WORKSPACE_INSTALL="home/rigeluser/ros_workspace/devel"
         - export ATOM_DATASETS="$HOME/ros_workspace/src/atom/ci_datasets"
+        - export ROS_BAGS="$HOME/bagfiles"
         - source $WORKSPACE_INSTALL/setup.bash
         # - rosrun rosbridge_server rosbridge_websocket & # Testing
         - "cd home/rigeluser/ros_workspace/src/atom/atom_examples"
