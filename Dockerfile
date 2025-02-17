@@ -81,9 +81,14 @@ RUN pip3 install pytictoc
 RUN pip3 install numpy==1.24.4
 RUN pip3 install transformations
 RUN pip3 install scikit-image
+RUN pip3 install gdown
 RUN mkdir -p home/rigeluser/ros_workspace/src
 RUN cd home/rigeluser/ros_workspace/src
 RUN git clone https://github.com/miguelriemoliveira/rviz home/rigeluser/ros_workspace/src/rviz
+RUN cd home/rigeluser
+RUN mkdir -p bagfiles/rrbot
+RUN cd bagfiles/rrbot
+RUN gdown --id 1Noo3eZh72m-xRobYZywdo1wtqg7e4wGa
 
 
 # Create default user 'rigeluser'.

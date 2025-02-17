@@ -10,6 +10,7 @@ export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH/usr/share/gazebo-11:
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH/usr/share/gazebo-11/meshes:
 export WORKSPACE_INSTALL="home/rigeluser/ros_workspace/devel"
 export ATOM_DATASETS="$HOME/ros_workspace/src/atom/ci_datasets"
+export ROS_BAGS="/home/rigeluser/bagfiles"
 source $WORKSPACE_INSTALL/setup.bash
 cd home/rigeluser/ros_workspace/src/atom/atom_examples
 sudo chmod 777 -R ./

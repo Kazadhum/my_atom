@@ -108,7 +108,7 @@ jobs:
         # - "export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/home/rigeluser/ros_workspace/src/t2rgb/t2rgb_description/models:"
         - export WORKSPACE_INSTALL="home/rigeluser/ros_workspace/devel"
         - export ATOM_DATASETS="$HOME/ros_workspace/src/atom/ci_datasets"
-        - export ROS_BAGS="$HOME/bagfiles"
+        - export ROS_BAGS="/home/rigeluser/bagfiles"
         - source $WORKSPACE_INSTALL/setup.bash
         # - rosrun rosbridge_server rosbridge_websocket & # Testing
         - "cd home/rigeluser/ros_workspace/src/atom/atom_examples"
@@ -211,17 +211,17 @@ jobs:
             
             introspection: False
 
-  compose_rigelfile_test:
+  collect_data:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
       timeout: 300.0
       components:
 
         -
-          name: app
+          name: "data_collection"
           image: "dvieira2001/atom:latest"
 
-          command: ["roslaunch", "t2rgb_bringup", "app_launch.launch", "motion_sequence_file:=/home/rigeluser/ros_workspace/src/t2rgb/movement_sequences/movement_sequence.json", "output_folder:=/home/rigeluser/ros_workspace/src/t2rgb/datasets/new_dataset", "overwrite:=true"]
+          command: ["/bin/bash", "-c", "sleep && ls"]
 
           envs:
             DISPLAY: "{{ vars.DISPLAY }}"
