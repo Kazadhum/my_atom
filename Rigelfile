@@ -157,7 +157,7 @@ jobs:
             
             introspection: False
 
-  calibrate_riwmpbot:
+  calibrate_riwbot:
     plugin: "rigel.plugins.core.ComposePlugin"
     with:
       timeout: 300.0
@@ -169,7 +169,7 @@ jobs:
             artifacts: 
               - "/home/rigeluser/single_rgb_results.csv"
 
-            command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwmpbot/train/dataset.json -v -nig {{ data.trans_noise }} {{ data.rot_noise }} -ctgt -jbn shoulder_pan_joint shoulder_lift_joint elbow_joint wrist_1_joint wrist_2_joint wrist_3_joint -jbp origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw origin_yaw -jbv 0.03 -0.02 0.03 -0.1 0.04 -0.09 && xvfb-run -a rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwmpbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwmpbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
+            command: ["/bin/bash", "-c", "xvfb-run -a rosrun atom_calibration calibrate -json $ATOM_DATASETS/riwbot/train/dataset.json -v -nig {{ data.trans_noise }} {{ data.rot_noise }} -ctgt && xvfb-run -a rosrun atom_evaluation single_rgb_evaluation -train_json $ATOM_DATASETS/riwbot/train/atom_calibration.json -test_json $ATOM_DATASETS/riwbot/train/dataset.json -sfr -sfrn /home/rigeluser/single_rgb_results.csv && cd /home/rigeluser/ && ls"]
             
             envs:
               DISPLAY: ":99"
@@ -282,7 +282,7 @@ jobs:
         # - "RMS (pix)"
         - "RMS (pix)": {validation_min: 0, validation_max: 2, use_latest_row: False, value_row: 'Averages', acceptable_min: 0, acceptable_max: 1} #Check for strings in result as well as numeric as well as a string's absence
 
-  introspection_riwmpbot:
+  introspection_riwbot:
     plugin: "file_intro_plugin.FileIntrospectionPlugin"
     with:
       file: "/home/runner/.rigel/archives/test/latest/calibration_evaluation/single_rgb_results.csv"
@@ -410,7 +410,7 @@ sequences:
           -  
             jobs: ["calibrate_rrbot", "introspection_rrbot"]
   
-  test_riwmpbot_calibration:
+  test_riwbot_calibration:
     stages:
       -
         matrix:
@@ -419,7 +419,7 @@ sequences:
 
         parallel:
           -
-            jobs: ["calibrate_riwmpbot", "introspection_riwmpbot"]
+            jobs: ["calibrate_riwbot", "introspection_riwbot"]
   
   test_rlbot_calibration:
     stages:

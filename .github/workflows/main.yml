@@ -55,8 +55,8 @@ jobs:
         run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_rrbot_calibration && ls
 
 
-      - name: Test riwmpbot calibration and evaluation
-        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwmpbot_calibration && ls
+      - name: Test riwbot calibration and evaluation
+        run: cd ~/atom/ && export DISPLAY=:99 && rigel run sequence test_riwbot_calibration && ls
 
 
       - name: Test rlbot calibration and evaluation
