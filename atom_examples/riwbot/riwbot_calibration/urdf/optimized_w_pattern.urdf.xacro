@@ -554,7 +554,7 @@
     <child link="tripod_center_support"/>
   </joint>
   <joint name="rgb_world_joint" type="fixed">
-    <origin xyz="0.00018422549328598914 -8.687126147423204e-05 0.03082428267298673" rpy="1.782480977365134e-05 0.0008392950298426041 -6.424682384297097e-05"/>
+    <origin xyz="0.00016217990171165565 -7.145197012276274e-05 0.029180073996584944" rpy="0.00010608885856825412 -0.0005218577838252585 -0.00027747251278555817"/>
     <parent link="tripod_center_support"/>
     <child link="rgb_world_link"/>
   </joint>
@@ -645,7 +645,7 @@
     <parent link="flange"/>
     <child link="charuco_200x200_4x4"/>
   </joint>
-  <link name="pattern_link">
+  <link name="charuco_200x200_4x4">
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <visual name="pattern_1_visual">
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -654,9 +654,9 @@
       </geometry>
     </visual>
   </link>
-  <joint name="flange-pattern_link" type="fixed">
-    <origin xyz="0.05983295925390568 -0.06028112203976766 0.0006639433404215635" rpy="-0.0008146576348299466 -6.542257039450517e-05 -0.00021449988423033597"/>
+  <joint name="flange-charuco_200x200_4x4" type="fixed">
+    <origin xyz="0.06017527282800442 -0.05972593502907463 0.0005492165842738227" rpy="0.0001526206514825427 -0.0012433053112463365 0.0006108917325790478"/>
     <parent link="flange"/>
-    <child link="pattern_link"/>
+    <child link="charuco_200x200_4x4"/>
   </joint>
 </robot>

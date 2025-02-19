@@ -118,7 +118,7 @@ calibration_patterns:
   pattern_1:
     # The frame id (or link) of the pattern.
     # This link/transformation will be optimized.
-    link: "pattern_link"
+    link: "charuco_200x200_4x4"
 
     # The parent frame id (or link) of the pattern.
     # For example, in hand-eye calibration the parent link
